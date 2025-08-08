@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Wo ist DER Code👨‍💻?????</title>
+<audio autoplay loop>
+        <source src="whispers-in-the-rain-255654.mp3" type="audio/mpeg">
+    </audio>
+<style>
+
+  @font-face {
+    font-family: "x";
+    src: url("Minercraftory.ttf");
+  }
+  body {
+    background-color: #000;
+    color: #fff;
+    font-family: Arial, sans-serif;
+    max-width: 600px;
+    margin: 2rem auto;
+    padding: 1rem;
+  }
+  h1 {
+    text-align: center;
+    font-size: 2.5rem;
+    margin-bottom: 1rem;
+    font-family: "x";
+  }
+  .story {
+    margin-bottom: 1rem;
+    font-size: 1.1rem;
+    line-height: 1.4;
+  }
+  .question {
+    font-weight: bold;
+    margin-bottom: 0.5rem;
+  }
+  .answers button {
+    display: block;
+    margin: 0.5rem 0;
+    padding: 0.5rem 1rem;
+    font-size: 1rem;
+    background-color: #222;
+    color: #fff;
+    border: 1px solid #444;
+    border-radius: 4px;
+    cursor: pointer;
+    text-align: left;
+  }
+  .answers button:hover {
+    background-color: #555;
+  }
+  .result {
+    margin-top: 1rem;
+    font-weight: bold;
+  }
+  .text-answer {
+    width: 100%;
+    padding: 0.5rem;
+    font-size: 1rem;
+    margin-top: 0.5rem;
+    border-radius: 4px;
+    border: 1px solid #444;
+    background-color: #111;
+    color: #fff;
+  }
+  .submit-btn {
+    margin-top: 0.7rem;
+    padding: 0.5rem 1rem;
+    font-size: 1rem;
+    background-color: #222;
+    color: #fff;
+    border: 1px solid #444;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+  .submit-btn:hover {
+    background-color: #555;
+  }
+</style>
+</head>
+<body>
+
+<h1>Wo ist DER Code?</h1>
+<div id="game-container">
+  <!-- Inhalt per JavaScript -->
+</div>
+
+<script>
+const levels = [
+  {
+    type: "multiple",
+    story: `Nachts wachst du in einem dunklen Raum auf. Du errinnerst dich nur noch an ein Abendessen mit deinem Client.
+Vor dir flimmert ein Computer welcher folgenden Text zeigt
+<pre>&lt;img src="bild.png"&gt</pre>
+Der Code wirkt unvollständig. Was fehlt, damit das Bild richtig angezeigt wird?`,
+    question: "Was fehlt im img-Tag? <img>",
+    answers: ["alt", "src", "href"],
+    correct: 0,
+    explanation: "Das alt-Attribut beschreibt den Alternativtext, der angezeigt wird, falls das Bild nicht geladen wird."
+  },
+  {
+    type: "multiple",
+    story: `Plötzlich öffnete sich eine Falltür unter dir und du fielst tief und du spürtest das dein Leben zu ende war. Du dactest an deine Familie , welche erst in Wochen davan erfahren würden. Dannfülst du `,
+    question: "Welche CSS-Regel ist richtig?",
+    answers: [
+      "color: white; text-align: center;",
+      "color: black; text-align: left;",
+      "color: red; text-align: right;"
+    ],
+    correct: 0,
+    explanation: "Diese Regel macht den Text weiß und zentriert ihn."
+  },
+  {
+    type: "text",
+    story: `Du siehst folgenden Code auf einem Bildschirm:
+<pre>console.log('Hallo' + ' Welt');</pre>
+Was wird in der Konsole ausgegeben?`,
+    question: "Gib die Ausgabe ein:",
+    correctAnswer: "Hallo Welt",
+    explanation: "Der Plus-Operator verbindet die beiden Strings ohne ein Pluszeichen dazwischen."
+  },
+  {
+    type: "text",
+    story: `Du findest einen Code-Schnipsel:
+<pre>function geheim() {
+  return 'Rätsel gelöst!';
+}</pre>
+Was gibt die Funktion geheim() zurück?`,
+    question: "Gib die Rückgabe der Funktion ein:",
+    correctAnswer: "Rätsel gelöst!",
+    explanation: "Die Funktion gibt den String zurück, der im return steht."
+  },
+  {
+    type: "multiple",
+    story: `Du hast alle Hinweise gesammelt. Wer hat den Code gestohlen?`,
+    question: "Wer ist der Täter?",
+    answers: [
+      "Anna (Frontend-Entwicklerin)",
+      "Ben (Backend-Entwickler)",
+      "Clara (Marketing)"
+    ],
+    correct: 1,
+    explanation: "Ben arbeitet am Backend und hat Zugriff auf den Code."
+  },
+  {
+    type: "multiple",
+    story: `Du betrittst einen geheimen Raum und findest auf einem Bildschirm:
+<pre>&lt;ul&gt;
+  &lt;li&gt;Apfel&lt;/li&gt;
+  &lt;li&gt;Banane&lt;/li&gt;
+  &lt;li&gt;Orange&lt;/li&gt;
+&lt;/ul&gt;</pre>
+Was siehst du, wenn du die Liste im Browser öffnest?`,
+    question: "Was wird angezeigt?",
+    answers: ["Eine nummerierte Liste", "Eine Liste mit Punkten", "Ein Fehler"],
+    correct: 1,
+    explanation: "<ul> erzeugt eine ungeordnete Liste mit Punkten."
+  },
+  {
+    type: "text",
+    story: `Du liest im Notizbuch:
+<pre>width: 100px;
+padding: 10px;
+border: 5px solid black;
+margin: 20px;</pre>
+Wie breit ist das Element insgesamt (ohne Margin)?`,
+    question: "Gib die Breite in px ein:",
+    correctAnswer: "130",
+    explanation: "100 + 10*2 + 5*2 = 130px Breite."
+  },
+  {
+    type: "multiple",
+    story: `Du findest diesen Code:
+<pre>for(let i = 0; i &lt; 3; i++) {
+  console.log(i);
+}</pre>
+Was wird ausgegeben?`,
+    question: "Was gibt die Schleife aus?",
+    answers: ["0, 1, 2", "1, 2, 3", "Keine Ausgabe"],
+    correct: 0,
+    explanation: "Die Schleife läuft von 0 bis 2 und gibt die Zahlen aus."
+  },
+  {
+    type: "text",
+    story: `Auf einem Bildschirm steht:
+<pre>&lt;p&gt;Hallo Welt&lt;p&gt;</pre>
+Der Browser zeigt nichts an. Was fehlt?`,
+    question: "Gib den fehlenden Tag ein:",
+    correctAnswer: "</p>",
+    explanation: "Der Absatz wird nicht richtig geschlossen."
+  },
+  {
+    type: "text",
+    story: `Du findest einen Zettel mit folgendem Text:
+<pre>Ifmmp! Xpsme!</pre>
+Entschlüssle die Nachricht.`,
+    question: "Gib die entschlüsselte Nachricht ein:",
+    correctAnswer: "Hallo Welt!",
+    explanation: "Caesar-Chiffre mit Verschiebung 1: Jeder Buchstabe wird um eins zurück verschoben."
+  }
+];
+
+let currentLevel = 0;
+const container = document.getElementById("game-container");
+
+function showLevel(level) {
+  container.innerHTML = "";
+
+  const lvl = levels[level];
+
+  const storyEl = document.createElement("div");
+  storyEl.className = "story";
+  storyEl.innerHTML = lvl.story;
+  container.appendChild(storyEl);
+
+  const questionEl = document.createElement("div");
+  questionEl.className = "question";
+  questionEl.textContent = lvl.question;
+  container.appendChild(questionEl);
+
+  if(lvl.type === "multiple") {
+    const answersEl = document.createElement("div");
+    answersEl.className = "answers";
+
+    lvl.answers.forEach((answer, index) => {
+      const btn = document.createElement("button");
+      btn.textContent = answer;
+      btn.addEventListener("click", () => checkAnswer(index));
+      answersEl.appendChild(btn);
+    });
+
+    container.appendChild(answersEl);
+  } else if(lvl.type === "text") {
+    const input = document.createElement("input");
+    input.type = "text";
+    input.className = "text-answer";
+    input.placeholder = "Deine Antwort hier";
+
+    const submit = document.createElement("button");
+    submit.className = "submit-btn";
+    submit.textContent = "Antwort prüfen";
+
+    submit.addEventListener("click", () => {
+      const userAnswer = input.value.trim();
+      if(userAnswer === "") return alert("Bitte gib eine Antwort ein!");
+      checkTextAnswer(userAnswer);
+    });
+
+    container.appendChild(input);
+    container.appendChild(submit);
+  }
+
+  const oldResult = document.querySelector(".result");
+  if (oldResult) oldResult.remove();
+}
+
+function checkAnswer(selected) {
+  const level = levels[currentLevel];
+  container.querySelectorAll("button").forEach(btn => btn.disabled = true);
+
+  const resultEl = document.createElement("div");
+  resultEl.className = "result";
+
+  if (selected === level.correct) {
+    resultEl.style.color = "lightgreen";
+    resultEl.textContent = "Richtig! " + level.explanation;
+    container.appendChild(resultEl);
+
+    currentLevel++;
+    if (currentLevel < levels.length) {
+      setTimeout(() => {
+        showLevel(currentLevel);
+      }, 2500);
+    } else {
+      setTimeout(() => {
+        showEndscreen();
+      }, 2500);
+    }
+  } else {
+    resultEl.style.color = "tomato";
+    resultEl.textContent = "Falsch! Versuch es nochmal.";
+    container.appendChild(resultEl);
+    container.querySelectorAll("button").forEach(btn => btn.disabled = false);
+  }
+}
+
+function checkTextAnswer(userAnswer) {
+  const level = levels[currentLevel];
+  const resultEl = document.createElement("div");
+  resultEl.className = "result";
+
+  if(userAnswer.toLowerCase() === level.correctAnswer.toLowerCase()) {
+    resultEl.style.color = "lightgreen";
+    resultEl.textContent = "Richtig! " + level.explanation;
+    container.appendChild(resultEl);
+
+    currentLevel++;
+    if (currentLevel < levels.length) {
+      setTimeout(() => {
+        showLevel(currentLevel);
+      }, 2500);
+    } else {
+      setTimeout(() => {
+        showEndscreen();
+      }, 2500);
+    }
+  } else {
+    resultEl.style.color = "tomato";
+    resultEl.textContent = "Falsch! Versuch es nochmal.";
+    container.appendChild(resultEl);
+  }
+}
+
+function showEndscreen() {
+  container.innerHTML = `
+    <h2>Herzlichen Glückwunsch!</h2>
+    <p>Du hast alle Levels gelöst und den Code gefunden!</p>
+    <button id="restart">Nochmal spielen</button>
+  `;
+  document.getElementById("restart").addEventListener("click", () => {
+    currentLevel = 0;
+    showLevel(currentLevel);
+  });
+}
+
+showLevel(currentLevel);
+</script>
+
+</body>
+</html>
