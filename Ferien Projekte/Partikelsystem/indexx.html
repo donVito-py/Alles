@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8" />
+    <title>Partickelsystem</title>
+    <style>
+        html, body {
+            margin: 0;
+        }
+        canvas {
+            background-color:blue;
+        
+        }
+    </style>
+</head>    
+<body>
+    <!-- <h1>Partickelsystem</h1>
+    <p>Hier wird ein Partickelsystem erstellt.</p>
+    <input type="text" id="textInput" placeholder="Partickelanzahl" />
+    <button>Simulueren</button> -->
+    <canvas id="meinCanvas" width="100" height="100"></canvas>
+
+    <script>
+        let canvas = document.getElementById("meinCanvas");
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+        let kontext = canvas.getContext("2d");
+
+        function L_zeichnen(L_X, L_Y, L_Dicke, L_Hoehe, L_Weite, Farbe) {
+        kontext.fillStyle = Farbe;
+        kontext.beginPath();
+        kontext.moveTo(L_X, L_Y);
+        kontext.lineTo(L_X, L_Y + L_Hoehe);
+        kontext.lineTo(L_X + L_Weite, L_Y + L_Hoehe);
+        kontext.lineTo(L_X + L_Weite, L_Y + L_Hoehe - L_Dicke);
+        kontext.lineTo(L_X + L_Dicke, L_Y + L_Hoehe - L_Dicke);
+        kontext.lineTo(L_X + L_Dicke, L_Y);
+        kontext.lineTo(L_X, L_Y);
+        kontext.fill()
+
+        }
+
+        function zufälligeZahl(min, max) {
+            return min + Math.floor(Math.random() * (max + 1));
+        }
+
+        function zufälligeFarbe() {
+            let r = zufalligeZahl(255);
+            let g = zufalligeZahl(255);
+            let b = zufalligeZahl(255);
+            return "rgb(" + r + ", " + g + ", " + b + ")";
+        }
+        function zeichnen(){
+        L_zeichnen(50, 300, 60, 400, 200, zufälligeFarbe());
+        L_zeichnen(300, 300, 60, 400, 200, zufälligeFarbe());
+        L_zeichnen(550, 300, 60, 400, 200, zufälligeFarbe());
+        L_zeichnen(800, 300, 60, 400, 200, zufälligeFarbe());
+        L_zeichnen(1050, 300, 60, 400, 200, zufälligeFarbe());
+        L_zeichnen(1300, 300, 60, 400, 200, zufälligeFarbe());
+        L_zeichnen(1550, 300, 60, 400, 200, zufälligeFarbe());
+        L_zeichnen(1800, 300, 60, 400, 200, zufälligeFarbe());
+        }
+        
+        setInterval(zeichnen, 1000);
+
+
+
+
+
+    
+
+
+
+
+    </script>
+    
+</body>
+</html>

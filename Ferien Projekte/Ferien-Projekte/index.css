@@ -1,0 +1,51 @@
+@font-face {
+    font-family: "x";
+    src: url("Minercraftory.ttf");
+}
+
+body {
+    background-color: rgb(0, 0, 0);
+}
+
+h1 {
+    text-align: center;
+    color: rgb(255, 255, 255);
+    font-family: "x";
+    font-size: 5rem;
+}
+
+p img{
+    width: 500px;
+    height: auto;
+    margin-left: auto;
+    margin-right: auto;
+}
+button {
+    background-color: #4CAF50;      /* schönes Grün */
+    color: white;                   /* weiße Schrift */
+    font-family: 'x', sans-serif;  /* deine Minecraftory-Schrift, falls geladen */
+    font-size: 2rem;                /* gut lesbar */
+    padding: 15px 40px;             /* großer Klickbereich */
+    border: none;                  /* kein Standardrahmen */
+    border-radius: 12px;           /* runde Ecken */
+    cursor: pointer;               /* Hand-Cursor beim Hover */
+    box-shadow: 0 5px #2d6a2f;    /* Tiefe */ 
+    transition: all 0.3s ease;    /* sanfter Übergang für Hover */
+    display: block;
+    margin: 50px auto 0 auto; /* oben 50px, unten 0, links/rechts auto zentriert */
+    /* dein restliches Styling */
+    text-decoration: none;
+}
+
+button:hover {
+    background-color: #45a049;     /* dunkleres Grün beim Hover */
+    box-shadow: 0 3px #1e4d1f;
+    transform: translateY(2px);    /* „nach unten gedrückt“-Effekt */
+    text-decoration: none;
+}
+
+button:active {
+    box-shadow: none;
+    transform: translateY(5px);    /* gedrückter Zustand */
+    text-decoration: none;
+}
