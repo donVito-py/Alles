@@ -3,7 +3,7 @@ import arcade.gui
 from arcade.gui import (
     UIImage,
     UIOnChangeEvent,
-    UITextureButton,
+    UITextur0000,,,,,,,,,0000
 )
 
 
@@ -12,13 +12,19 @@ SCREEN_HEIGHT = 800
 SCREEN_TITLE = "Glitch Klicker"
 
 class MeinSpiel(arcade.Window):
-    def on_store_click(self, event):
+
+    def UITextureButton_on_click(self, event):
         self.on_store = not self.on_store
+
     def __init__(self):
         super().__init__(SCREEN_WIDTH, SCREEN_HEIGHT, SCREEN_TITLE)
         self.x = int(input("Hitboxen anzeigen? (1 für Ja, 0 für Nein): "))
         self.mauszeiger = None
         self.zahl = 0
+
+        self.on_store = False
+
+        
 
         arcade.set_background_color(arcade.color.WHITE)
         self.clicker =arcade.Sprite("Background.png", 0.75)
@@ -26,7 +32,6 @@ class MeinSpiel(arcade.Window):
         self.clicker.center_y = SCREEN_HEIGHT // 2
         self.clicker.hit_box = arcade.hitbox.HitBox([(75, 75), (-75, 75), (-75, -75), (75, -75)], self.clicker.position)
 
-        self.on_store = False
 
         self.manager = arcade.gui.UIManager()
 
@@ -44,7 +49,11 @@ class MeinSpiel(arcade.Window):
 
         self.store_button.center_x = SCREEN_WIDTH // 2
         self.store_button.center_y = 100
-        self.store_button.on_click = on_store_click(self)
+
+        self.store_button.on_click = self.UITextureButton_on_click
+       
+     
+
         self.store_button.add(
             child=UIImage(
                 texture= arcade.load_texture("Store.png"),
@@ -53,6 +62,7 @@ class MeinSpiel(arcade.Window):
             ),
             anchor_x="left",
             align_x=10,
+
 
         )
         self.manager.add(self.store_button)
@@ -86,9 +96,10 @@ class MeinSpiel(arcade.Window):
                 self.mauszeiger.draw_hit_box(color=arcade.color.BLUE, line_thickness=2)
         else:
             pass
-        self.manager.draw()
+        # Shop zuerst zeichnen, dann die UI-Elemente (Button)
         if self.on_store == True:
             arcade.draw_lbwh_rectangle_filled(75, 75, 675, 675, arcade.color.GRAY)
+        self.manager.draw()
         
     def on_mouse_press(self, x, y, button, modifiers):
         self.mauszeiger = arcade.Sprite()
@@ -99,8 +110,7 @@ class MeinSpiel(arcade.Window):
             self.zahl = self.zahl + 1
 
     def on_update(self, delta_time):
-        print(f"Anzahl Klicks: {self.zahl}")
-                        
+        pass
 
 if __name__ == "__main__":
     spiel = MeinSpiel()
