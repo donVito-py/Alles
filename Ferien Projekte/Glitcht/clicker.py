@@ -3,7 +3,10 @@ import arcade.gui
 from arcade.gui import (
     UIImage,
     UIOnChangeEvent,
-    UITextur0000,,,,,,,,,0000
+    UITextureButton,
+    UIGridLayout,
+    UIAnchorLayout,
+    UIView,
 )
 
 
@@ -16,6 +19,7 @@ class MeinSpiel(arcade.Window):
     def UITextureButton_on_click(self, event):
         self.on_store = not self.on_store
 
+
     def __init__(self):
         super().__init__(SCREEN_WIDTH, SCREEN_HEIGHT, SCREEN_TITLE)
         self.x = int(input("Hitboxen anzeigen? (1 für Ja, 0 für Nein): "))
@@ -23,6 +27,8 @@ class MeinSpiel(arcade.Window):
         self.zahl = 0
 
         self.on_store = False
+        self.mauszeiger_helfer_liste = arcade.SpriteList()
+        self.nummer_mauszeiger_helfer = 0
 
         
 
@@ -32,7 +38,6 @@ class MeinSpiel(arcade.Window):
         self.clicker.center_y = SCREEN_HEIGHT // 2
         self.clicker.hit_box = arcade.hitbox.HitBox([(75, 75), (-75, 75), (-75, -75), (75, -75)], self.clicker.position)
 
-
         self.manager = arcade.gui.UIManager()
 
         self.store_button = UITextureButton(
@@ -41,7 +46,39 @@ class MeinSpiel(arcade.Window):
             texture=arcade.load_texture(":resources:gui_basic_assets/button/red_normal.png"),
             texture_hovered=arcade.load_texture(":resources:gui_basic_assets/button/red_hover.png"),
             texture_pressed=arcade.load_texture(":resources:gui_basic_assets/button/red_press.png")
+
         )
+
+
+        #Mauszeiger_helfer
+        self.mauszeiger_helfer =arcade.Sprite("Mauszeiger.png", 0.09)
+        self.mauszeiger_helfer.center_x = SCREEN_WIDTH // 3
+        self.mauszeiger_helfer.center_y = SCREEN_HEIGHT // 3
+        self.nummer_mauszeiger_helfer += 1
+        self.mauszeiger_helfer.rotation = 45 * self.nummer_mauszeiger_helfer
+
+        self.mauszeiger_helfer =arcade.Sprite("Mauszeiger.png", 0.09)
+        self.mauszeiger_helfer.center_x = SCREEN_WIDTH // 3
+        self.mauszeiger_helfer.center_y = SCREEN_HEIGHT // 3
+        self.nummer_mauszeiger_helfer += 1
+        self.mauszeiger_helfer.rotation = 45 * self.nummer_mauszeiger_helfer
+        self.mauszeiger_helfer_liste.append(self.mauszeiger_helfer)
+
+        self.mauszeiger_helfer =arcade.Sprite("Mauszeiger.png", 0.09)
+        self.mauszeiger_helfer.center_x = SCREEN_WIDTH // 3
+        self.mauszeiger_helfer.center_y = SCREEN_HEIGHT // 3
+        self.nummer_mauszeiger_helfer += 1
+        self.mauszeiger_helfer.rotation = 45 * self.nummer_mauszeiger_helfer
+        self.mauszeiger_helfer_liste.append(self.mauszeiger_helfer)
+
+        self.mauszeiger_helfer =arcade.Sprite("Mauszeiger.png", 0.09)
+        self.mauszeiger_helfer.center_x = SCREEN_WIDTH // 3
+        self.mauszeiger_helfer.center_y = SCREEN_HEIGHT // 3
+        self.nummer_mauszeiger_helfer += 1
+        self.mauszeiger_helfer.rotation = 45 * self.nummer_mauszeiger_helfer
+        self.mauszeiger_helfer_liste.append(self.mauszeiger_helfer)
+        
+
 
 
 
@@ -74,13 +111,18 @@ class MeinSpiel(arcade.Window):
 
 
 
+
+
         
     def setup(self):
         pass
 
     def on_key_press(self, key, modifiers):
         if key == arcade.key.SPACE:
-            self.zahl = self.zahl + 1   
+            if self.on_store == True:
+                self.zahl += 0
+            else:
+                self.zahl += 1 
         if key == arcade.key.ESCAPE:
             arcade.close_window()
         if key == arcade.key.Q:
@@ -96,10 +138,10 @@ class MeinSpiel(arcade.Window):
                 self.mauszeiger.draw_hit_box(color=arcade.color.BLUE, line_thickness=2)
         else:
             pass
-        # Shop zuerst zeichnen, dann die UI-Elemente (Button)
         if self.on_store == True:
             arcade.draw_lbwh_rectangle_filled(75, 75, 675, 675, arcade.color.GRAY)
         self.manager.draw()
+        self.mauszeiger_helfer_liste.draw()
         
     def on_mouse_press(self, x, y, button, modifiers):
         self.mauszeiger = arcade.Sprite()
@@ -107,10 +149,16 @@ class MeinSpiel(arcade.Window):
         self.mauszeiger.center_y = y
         self.mauszeiger.hit_box = arcade.hitbox.HitBox([(5, 5), (-5, 5), (-5, -5), (5, -5)], self.mauszeiger.position)
         if arcade.check_for_collision(self.clicker, self.mauszeiger):
-            self.zahl = self.zahl + 1
+            if self.on_store == True:
+                self.zahl = self.zahl + 0
+            else:
+                self.zahl = self.zahl + 1
 
     def on_update(self, delta_time):
         pass
+
+
+
 
 if __name__ == "__main__":
     spiel = MeinSpiel()
