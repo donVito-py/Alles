@@ -8,6 +8,8 @@ from arcade.gui import (
     UIAnchorLayout,
     UIView,
 )
+from time import sleep
+import math
 
 
 SCREEN_WIDTH = 800
@@ -51,33 +53,28 @@ class MeinSpiel(arcade.Window):
 
 
         #Mauszeiger_helfer
-        self.mauszeiger_helfer =arcade.Sprite("Mauszeiger.png", 0.09)
+        self.mauszeiger_helfer = arcade.Sprite("Mauszeiger.png", 0.09)
         self.mauszeiger_helfer.center_x = SCREEN_WIDTH // 3
-        self.mauszeiger_helfer.center_y = SCREEN_HEIGHT // 3
+        self.mauszeiger_helfer.center_y = SCREEN_HEIGHT // 3 
         self.nummer_mauszeiger_helfer += 1
-        self.mauszeiger_helfer.rotation = 45 * self.nummer_mauszeiger_helfer
-
-        self.mauszeiger_helfer =arcade.Sprite("Mauszeiger.png", 0.09)
-        self.mauszeiger_helfer.center_x = SCREEN_WIDTH // 3
-        self.mauszeiger_helfer.center_y = SCREEN_HEIGHT // 3
-        self.nummer_mauszeiger_helfer += 1
-        self.mauszeiger_helfer.rotation = 45 * self.nummer_mauszeiger_helfer
+        dx = (SCREEN_WIDTH // 2) - self.mauszeiger_helfer.center_x
+        dy = (SCREEN_HEIGHT // 2) - self.mauszeiger_helfer.center_y
+        winkel_rad = math.atan2(dy, dx)
+        winkel_deg = math.degrees(winkel_rad)
+        self.mauszeiger_helfer.angle = winkel_deg
         self.mauszeiger_helfer_liste.append(self.mauszeiger_helfer)
 
-        self.mauszeiger_helfer =arcade.Sprite("Mauszeiger.png", 0.09)
-        self.mauszeiger_helfer.center_x = SCREEN_WIDTH // 3
-        self.mauszeiger_helfer.center_y = SCREEN_HEIGHT // 3
+        self.mauszeiger_helfer = arcade.Sprite("Mauszeiger.png", 0.09)
+        self.mauszeiger_helfer.center_x = SCREEN_WIDTH // 3 + 200
+        self.mauszeiger_helfer.center_y = SCREEN_HEIGHT // 3 - 67
         self.nummer_mauszeiger_helfer += 1
-        self.mauszeiger_helfer.rotation = 45 * self.nummer_mauszeiger_helfer
+        dx = (SCREEN_WIDTH // 2) - self.mauszeiger_helfer.center_x
+        dy = (SCREEN_HEIGHT // 2) - self.mauszeiger_helfer.center_y
+        winkel_rad = math.atan2(dy, dx)
+        winkel_deg = math.degrees(winkel_rad)
+        self.mauszeiger_helfer.angle = winkel_deg
         self.mauszeiger_helfer_liste.append(self.mauszeiger_helfer)
 
-        self.mauszeiger_helfer =arcade.Sprite("Mauszeiger.png", 0.09)
-        self.mauszeiger_helfer.center_x = SCREEN_WIDTH // 3
-        self.mauszeiger_helfer.center_y = SCREEN_HEIGHT // 3
-        self.nummer_mauszeiger_helfer += 1
-        self.mauszeiger_helfer.rotation = 45 * self.nummer_mauszeiger_helfer
-        self.mauszeiger_helfer_liste.append(self.mauszeiger_helfer)
-        
 
 
 
@@ -126,7 +123,8 @@ class MeinSpiel(arcade.Window):
         if key == arcade.key.ESCAPE:
             arcade.close_window()
         if key == arcade.key.Q:
-            self.zahl = self.zahl + self.zahl 
+            for i in range(1000):
+                self.zahl = self.zahl + self.zahl
    
     def on_draw(self):
         self.clear()
