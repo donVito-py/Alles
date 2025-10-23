@@ -53,28 +53,94 @@ class MeinSpiel(arcade.Window):
 
 
         #Mauszeiger_helfer
+        x_sin = math.sin(3.6) * 140
         self.mauszeiger_helfer = arcade.Sprite("Mauszeiger.png", 0.09)
-        self.mauszeiger_helfer.center_x = SCREEN_WIDTH // 3
-        self.mauszeiger_helfer.center_y = SCREEN_HEIGHT // 3 
+        self.mauszeiger_helfer.center_x = SCREEN_WIDTH // 2 + 175
+        self.mauszeiger_helfer.center_y = SCREEN_HEIGHT // 2 + x_sin
         self.nummer_mauszeiger_helfer += 1
-        dx = (SCREEN_WIDTH // 2) - self.mauszeiger_helfer.center_x
-        dy = (SCREEN_HEIGHT // 2) - self.mauszeiger_helfer.center_y
-        winkel_rad = math.atan2(dy, dx)
-        winkel_deg = math.degrees(winkel_rad)
-        self.mauszeiger_helfer.angle = winkel_deg
         self.mauszeiger_helfer_liste.append(self.mauszeiger_helfer)
 
+        x_sin = math.sin(7.2) * 140
         self.mauszeiger_helfer = arcade.Sprite("Mauszeiger.png", 0.09)
-        self.mauszeiger_helfer.center_x = SCREEN_WIDTH // 3 + 200
-        self.mauszeiger_helfer.center_y = SCREEN_HEIGHT // 3 - 67
+        self.mauszeiger_helfer.center_x = SCREEN_WIDTH // 2 + 175
+        self.mauszeiger_helfer.center_y = SCREEN_HEIGHT // 2 + x_sin
         self.nummer_mauszeiger_helfer += 1
-        dx = (SCREEN_WIDTH // 2) - self.mauszeiger_helfer.center_x
-        dy = (SCREEN_HEIGHT // 2) - self.mauszeiger_helfer.center_y
-        winkel_rad = math.atan2(dy, dx)
-        winkel_deg = math.degrees(winkel_rad)
-        self.mauszeiger_helfer.angle = winkel_deg
         self.mauszeiger_helfer_liste.append(self.mauszeiger_helfer)
 
+        x_sin = math.sin(10.8) * 140
+        self.mauszeiger_helfer = arcade.Sprite("Mauszeiger.png", 0.09)
+        self.mauszeiger_helfer.center_x = SCREEN_WIDTH // 2 + 175
+        self.mauszeiger_helfer.center_y = SCREEN_HEIGHT // 2 + x_sin
+        self.nummer_mauszeiger_helfer += 1
+        self.mauszeiger_helfer_liste.append(self.mauszeiger_helfer)
+
+        x_sin = math.sin(14.4) * 140
+        self.mauszeiger_helfer = arcade.Sprite("Mauszeiger.png", 0.09)
+        self.mauszeiger_helfer.center_x = SCREEN_WIDTH // 2 + 175
+        self.mauszeiger_helfer.center_y = SCREEN_HEIGHT // 2 + x_sin
+        self.nummer_mauszeiger_helfer += 1
+        self.mauszeiger_helfer_liste.append(self.mauszeiger_helfer)
+
+        x_sin = math.sin(18) * 140
+        self.mauszeiger_helfer = arcade.Sprite("Mauszeiger.png", 0.09)
+        self.mauszeiger_helfer.center_x = SCREEN_WIDTH // 2 + 175
+        self.mauszeiger_helfer.center_y = SCREEN_HEIGHT // 2 + x_sin
+        self.nummer_mauszeiger_helfer += 1
+        self.mauszeiger_helfer_liste.append(self.mauszeiger_helfer)
+
+        x_sin = math.sin(21.6) * 140
+        self.mauszeiger_helfer = arcade.Sprite("Mauszeiger.png", 0.09)
+        self.mauszeiger_helfer.center_x = SCREEN_WIDTH // 2 + 175
+        self.mauszeiger_helfer.center_y = SCREEN_HEIGHT // 2 + x_sin
+        self.nummer_mauszeiger_helfer += 1
+        self.mauszeiger_helfer_liste.append(self.mauszeiger_helfer)
+
+        x_sin = math.sin(25.2) * 140
+        self.mauszeiger_helfer = arcade.Sprite("Mauszeiger.png", 0.09)
+        self.mauszeiger_helfer.center_x = SCREEN_WIDTH // 2 + 175
+        self.mauszeiger_helfer.center_y = SCREEN_HEIGHT // 2 + x_sin
+        self.nummer_mauszeiger_helfer += 1
+        self.mauszeiger_helfer_liste.append(self.mauszeiger_helfer)
+
+        x_sin = math.sin(28.8) * 140
+        self.mauszeiger_helfer = arcade.Sprite("Mauszeiger.png", 0.09)
+        self.mauszeiger_helfer.center_x = SCREEN_WIDTH // 2 + 175
+        self.mauszeiger_helfer.center_y = SCREEN_HEIGHT // 2 + x_sin
+        self.nummer_mauszeiger_helfer += 1
+        self.mauszeiger_helfer_liste.append(self.mauszeiger_helfer)
+
+        x_sin = math.sin(32.4) * 140
+        self.mauszeiger_helfer = arcade.Sprite("Mauszeiger.png", 0.09)
+        self.mauszeiger_helfer.center_x = SCREEN_WIDTH // 2 + 175
+        self.mauszeiger_helfer.center_y = SCREEN_HEIGHT // 2 + x_sin
+        self.nummer_mauszeiger_helfer += 1
+        self.mauszeiger_helfer_liste.append(self.mauszeiger_helfer)
+
+        x_sin = math.sin(36) * 140
+        self.mauszeiger_helfer = arcade.Sprite("Mauszeiger.png", 0.09)
+        self.mauszeiger_helfer.center_x = SCREEN_WIDTH // 2 + 175
+        self.mauszeiger_helfer.center_y = SCREEN_HEIGHT // 2 + x_sin
+        self.nummer_mauszeiger_helfer += 1
+        self.mauszeiger_helfer_liste.append(self.mauszeiger_helfer)
+
+        x_sin = math.sin(39.6) * 140
+        self.mauszeiger_helfer = arcade.Sprite("Mauszeiger.png", 0.09)
+        self.mauszeiger_helfer.center_x = SCREEN_WIDTH // 2 + 175
+        self.mauszeiger_helfer.center_y = SCREEN_HEIGHT // 2 + x_sin
+        self.nummer_mauszeiger_helfer += 1
+        self.mauszeiger_helfer_liste.append(self.mauszeiger_helfer)
+
+        x_sin = math.sin(43.2) * 140
+        self.mauszeiger_helfer = arcade.Sprite("Mauszeiger.png", 0.09)
+        self.mauszeiger_helfer.center_x = SCREEN_WIDTH // 2 + 175
+        self.mauszeiger_helfer.center_y = SCREEN_HEIGHT // 2 + x_sin
+        self.nummer_mauszeiger_helfer += 1
+        self.mauszeiger_helfer_liste.append(self.mauszeiger_helfer)
+
+
+
+
+        
 
 
 
@@ -124,7 +190,7 @@ class MeinSpiel(arcade.Window):
             arcade.close_window()
         if key == arcade.key.Q:
             for i in range(1000):
-                self.zahl = self.zahl + self.zahl
+                self.zahl += self.zahl
    
     def on_draw(self):
         self.clear()
