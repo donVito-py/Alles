@@ -9,7 +9,7 @@ from arcade.gui import (
     UIView,
 )
 from time import sleep
-import math
+import math, numpy as np
 
 
 SCREEN_WIDTH = 800
@@ -53,98 +53,101 @@ class MeinSpiel(arcade.Window):
 
 
         #Mauszeiger_helfer
-        x_sin = math.sin(3.6) * 140
+        x_sin = np.sin(3.6) * 140
+        y_cos = np.cos(3.6) * 140
         self.mauszeiger_helfer = arcade.Sprite("Mauszeiger.png", 0.09)
-        self.mauszeiger_helfer.center_x = SCREEN_WIDTH // 2 + 175
+        self.mauszeiger_helfer.center_x = SCREEN_WIDTH // 2 + y_cos
         self.mauszeiger_helfer.center_y = SCREEN_HEIGHT // 2 + x_sin
         self.nummer_mauszeiger_helfer += 1
         self.mauszeiger_helfer_liste.append(self.mauszeiger_helfer)
 
-        x_sin = math.sin(7.2) * 140
+        x_sin = np.sin(7.2) * 140
+        y_cos = np.cos(7.2) * 140
         self.mauszeiger_helfer = arcade.Sprite("Mauszeiger.png", 0.09)
-        self.mauszeiger_helfer.center_x = SCREEN_WIDTH // 2 + 175
+        self.mauszeiger_helfer.center_x = SCREEN_WIDTH // 2 + y_cos
         self.mauszeiger_helfer.center_y = SCREEN_HEIGHT // 2 + x_sin
         self.nummer_mauszeiger_helfer += 1
         self.mauszeiger_helfer_liste.append(self.mauszeiger_helfer)
 
-        x_sin = math.sin(10.8) * 140
+        x_sin = np.sin(10.8) * 140
+        y_cos = np.cos(10.8) * 140
         self.mauszeiger_helfer = arcade.Sprite("Mauszeiger.png", 0.09)
-        self.mauszeiger_helfer.center_x = SCREEN_WIDTH // 2 + 175
+        self.mauszeiger_helfer.center_x = SCREEN_WIDTH // 2 + y_cos
         self.mauszeiger_helfer.center_y = SCREEN_HEIGHT // 2 + x_sin
         self.nummer_mauszeiger_helfer += 1
         self.mauszeiger_helfer_liste.append(self.mauszeiger_helfer)
 
-        x_sin = math.sin(14.4) * 140
+        x_sin = np.sin(14.4) * 140
+        y_cos = np.cos(14.4) * 140
         self.mauszeiger_helfer = arcade.Sprite("Mauszeiger.png", 0.09)
-        self.mauszeiger_helfer.center_x = SCREEN_WIDTH // 2 + 175
+        self.mauszeiger_helfer.center_x = SCREEN_WIDTH // 2 + y_cos
         self.mauszeiger_helfer.center_y = SCREEN_HEIGHT // 2 + x_sin
         self.nummer_mauszeiger_helfer += 1
         self.mauszeiger_helfer_liste.append(self.mauszeiger_helfer)
 
-        x_sin = math.sin(18) * 140
+        x_sin = np.sin(18) * 140
+        y_cos = np.cos(18) * 140
         self.mauszeiger_helfer = arcade.Sprite("Mauszeiger.png", 0.09)
-        self.mauszeiger_helfer.center_x = SCREEN_WIDTH // 2 + 175
+        self.mauszeiger_helfer.center_x = SCREEN_WIDTH // 2 + y_cos
         self.mauszeiger_helfer.center_y = SCREEN_HEIGHT // 2 + x_sin
         self.nummer_mauszeiger_helfer += 1
         self.mauszeiger_helfer_liste.append(self.mauszeiger_helfer)
 
-        x_sin = math.sin(21.6) * 140
+        x_sin = np.sin(21.6) * 140
+        y_cos = np.cos(21.6) * 140
         self.mauszeiger_helfer = arcade.Sprite("Mauszeiger.png", 0.09)
-        self.mauszeiger_helfer.center_x = SCREEN_WIDTH // 2 + 175
+        self.mauszeiger_helfer.center_x = SCREEN_WIDTH // 2 + y_cos
         self.mauszeiger_helfer.center_y = SCREEN_HEIGHT // 2 + x_sin
         self.nummer_mauszeiger_helfer += 1
         self.mauszeiger_helfer_liste.append(self.mauszeiger_helfer)
 
-        x_sin = math.sin(25.2) * 140
+        x_sin = np.sin(25.2) * 140
+        y_cos = np.cos(25.2) * 140
         self.mauszeiger_helfer = arcade.Sprite("Mauszeiger.png", 0.09)
-        self.mauszeiger_helfer.center_x = SCREEN_WIDTH // 2 + 175
+        self.mauszeiger_helfer.center_x = SCREEN_WIDTH // 2 + y_cos
         self.mauszeiger_helfer.center_y = SCREEN_HEIGHT // 2 + x_sin
         self.nummer_mauszeiger_helfer += 1
         self.mauszeiger_helfer_liste.append(self.mauszeiger_helfer)
 
-        x_sin = math.sin(28.8) * 140
+        x_sin = np.sin(28.8) * 140
+        y_cos = np.cos(28.8) * 140
         self.mauszeiger_helfer = arcade.Sprite("Mauszeiger.png", 0.09)
-        self.mauszeiger_helfer.center_x = SCREEN_WIDTH // 2 + 175
+        self.mauszeiger_helfer.center_x = SCREEN_WIDTH // 2 + y_cos
         self.mauszeiger_helfer.center_y = SCREEN_HEIGHT // 2 + x_sin
         self.nummer_mauszeiger_helfer += 1
         self.mauszeiger_helfer_liste.append(self.mauszeiger_helfer)
 
-        x_sin = math.sin(32.4) * 140
+        x_sin = np.sin(32.4) * 140
+        y_cos = np.cos(32.4) * 140
         self.mauszeiger_helfer = arcade.Sprite("Mauszeiger.png", 0.09)
-        self.mauszeiger_helfer.center_x = SCREEN_WIDTH // 2 + 175
+        self.mauszeiger_helfer.center_x = SCREEN_WIDTH // 2 + y_cos
         self.mauszeiger_helfer.center_y = SCREEN_HEIGHT // 2 + x_sin
         self.nummer_mauszeiger_helfer += 1
         self.mauszeiger_helfer_liste.append(self.mauszeiger_helfer)
 
-        x_sin = math.sin(36) * 140
+        x_sin = np.sin(36) * 140
+        y_cos = np.cos(36) * 140
         self.mauszeiger_helfer = arcade.Sprite("Mauszeiger.png", 0.09)
-        self.mauszeiger_helfer.center_x = SCREEN_WIDTH // 2 + 175
+        self.mauszeiger_helfer.center_x = SCREEN_WIDTH // 2 + y_cos
         self.mauszeiger_helfer.center_y = SCREEN_HEIGHT // 2 + x_sin
         self.nummer_mauszeiger_helfer += 1
         self.mauszeiger_helfer_liste.append(self.mauszeiger_helfer)
 
-        x_sin = math.sin(39.6) * 140
+        x_sin = np.sin(39.6) * 140
+        y_cos = np.cos(39.6) * 140
         self.mauszeiger_helfer = arcade.Sprite("Mauszeiger.png", 0.09)
-        self.mauszeiger_helfer.center_x = SCREEN_WIDTH // 2 + 175
+        self.mauszeiger_helfer.center_x = SCREEN_WIDTH // 2 + y_cos
         self.mauszeiger_helfer.center_y = SCREEN_HEIGHT // 2 + x_sin
         self.nummer_mauszeiger_helfer += 1
         self.mauszeiger_helfer_liste.append(self.mauszeiger_helfer)
 
-        x_sin = math.sin(43.2) * 140
+        x_sin = np.sin(43.2) * 140
+        y_cos = np.cos(43.2) * 140
         self.mauszeiger_helfer = arcade.Sprite("Mauszeiger.png", 0.09)
-        self.mauszeiger_helfer.center_x = SCREEN_WIDTH // 2 + 175
+        self.mauszeiger_helfer.center_x = SCREEN_WIDTH // 2 + y_cos
         self.mauszeiger_helfer.center_y = SCREEN_HEIGHT // 2 + x_sin
         self.nummer_mauszeiger_helfer += 1
         self.mauszeiger_helfer_liste.append(self.mauszeiger_helfer)
-
-
-
-
-        
-
-
-
-
         
 
         self.store_button.center_x = SCREEN_WIDTH // 2
