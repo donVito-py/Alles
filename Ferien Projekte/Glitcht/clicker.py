@@ -27,6 +27,7 @@ class MeinSpiel(arcade.Window):
         self.x = int(input("Hitboxen anzeigen? (1 für Ja, 0 für Nein): "))
         self.mauszeiger = None
         self.zahl = 0
+        self.ein_secunde_timer = 0
 
         self.on_store = False
         self.mauszeiger_helfer_liste = arcade.SpriteList()
@@ -143,7 +144,7 @@ class MeinSpiel(arcade.Window):
         if key == arcade.key.ESCAPE:
             arcade.close_window()
         if key == arcade.key.Q:
-            for i in range(1000):
+            for i in range(50):
                 self.zahl += self.zahl
    
     def on_draw(self):
@@ -174,13 +175,11 @@ class MeinSpiel(arcade.Window):
 
     def on_update(self, delta_time):
         self.ein_secunde_timer += delta_time
-        if self.ein_secunde_timer >= 1.0:
+        if self.ein_secunde_timer >= 1:
             self.ein_secunde_timer = 0
-            
-        while self.nummer_mauszeiger_helfer >= 0:
-            pass
+            self.zahl += self.nummer_mauszeiger_helfer / 10
 
-
+        print(self.zahl)
 
 
 
