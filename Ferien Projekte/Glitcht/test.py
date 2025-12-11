@@ -64,7 +64,7 @@ class MyView(UIView):
         grid.add(flat_with_more_text, row=2, column=0)
 
         # UIFlatButton with icon on the left
-        flat_with_icon_left = UIFlatButton(text="UIFlatButton with icon", width=200)
+        flat_with_icon_left = UIFlatButton(text="", width=50)
         flat_with_icon_left.place_text(align_x=+20)
         flat_with_icon_left.add(
             child=UIImage(
