@@ -8,7 +8,6 @@ import random
 SCREEN_WIDTH = 800
 SCREEN_HEIGHT = 800
 SCREEN_TITLE = "Glitch Klicker"
-
 SAVE_FILE = "savegame.json"
 
 
@@ -59,17 +58,17 @@ class GameView(arcade.View):
         self.ui = arcade.gui.UIManager()
         self.ui.enable()
 
-        # Store Button
-        self.store_button = arcade.gui.UIFlatButton(text="Store", width=200)
+        # Store Button (unten Mitte)
+        self.store_button = arcade.gui.UIFlatButton(text="Store", width=150)
         self.store_button.on_click = self.open_store
 
-        # Options Button
-        self.options_button = arcade.gui.UIFlatButton(text="Optionen", width=200)
+        # Options Button (unten rechts)
+        self.options_button = arcade.gui.UIFlatButton(text="Optionen", width=150)
         self.options_button.on_click = self.open_options
 
-        # UI Layout
+        # Fixe Positionen
         anchor = arcade.gui.UIAnchorLayout()
-        anchor.add(self.store_button, anchor_x="left", anchor_y="bottom", align_x=20, align_y=20)
+        anchor.add(self.store_button, anchor_x="center", anchor_y="bottom", align_x=0, align_y=20)
         anchor.add(self.options_button, anchor_x="right", anchor_y="bottom", align_x=-20, align_y=20)
         self.ui.add(anchor)
 
@@ -93,7 +92,7 @@ class GameView(arcade.View):
     # -----------------
     def open_store(self, event):
         self.paused = True
-        self.ui.disable()  # Haupt-UI deaktivieren
+        self.ui.disable()
         self.window.show_view(StoreView(self))
 
     # -----------------
@@ -101,7 +100,7 @@ class GameView(arcade.View):
     # -----------------
     def open_options(self, event):
         self.paused = True
-        self.ui.disable()  # Haupt-UI deaktivieren
+        self.ui.disable()
         self.window.show_view(OptionsView(self))
 
     # -----------------
@@ -128,7 +127,7 @@ class GameView(arcade.View):
         total_per_sec = sum(u.count * u.increment for u in self.upgrades)
         arcade.draw_text(f"Glitches / Sek: {total_per_sec}", 10, 35, arcade.color.DARK_GREEN, 16)
 
-        # Anzeige der Helfer
+        # Helferanzeige
         y_offset = 60
         for upgrade in self.upgrades:
             arcade.draw_text(f"{upgrade.name}: {upgrade.count}", 10, y_offset, arcade.color.BLACK, 16)
@@ -147,7 +146,7 @@ class GameView(arcade.View):
 
         if self.clicker.collides_with_point((x, y)):
             self.glitches += 1
-            # Klick-Effekt erzeugen
+            # Klick-Effekt
             self.click_effects.append({"x": x + random.randint(-10, 10),
                                        "y": y + random.randint(-10, 10),
                                        "text": "+1",
@@ -157,7 +156,7 @@ class GameView(arcade.View):
     # UPDATE
     # -----------------
     def on_update(self, delta_time):
-        # Update Klick-Effekte
+        # Klick-Effekte
         for effect in self.click_effects:
             effect["y"] += 20 * delta_time
             effect["timer"] += delta_time
@@ -268,7 +267,7 @@ class StoreView(arcade.View):
     # -----------------
     def go_back(self, event):
         self.game.paused = False
-        self.game.ui.enable()  # Haupt-UI wieder aktivieren
+        self.game.ui.enable()
         self.game.save_game()
         self.window.show_view(self.game)
 
@@ -320,7 +319,7 @@ class OptionsView(arcade.View):
 
     def go_back(self, event):
         self.game.paused = False
-        self.game.ui.enable()  # Haupt-UI wieder aktivieren
+        self.game.ui.enable()
         self.window.show_view(self.game)
 
     def on_draw(self):
