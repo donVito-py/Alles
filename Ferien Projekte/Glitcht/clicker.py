@@ -27,9 +27,10 @@ class Upgrade:
         self.sprites = arcade.SpriteList()
 
     def buy(self):
-        self.count += 1
-        self.price = int(self.price * 1.5)
-        return self.increment
+       # while self.paused:
+            self.count += 1
+            self.price = int(self.price * 1.5)
+            return self.increment
 
 
 # ===============================
@@ -79,6 +80,9 @@ class GameView(arcade.View):
         # Lade Spielstand
         self.load_game()
 
+        self.store = 0
+        self.options = 0
+
     # -----------------
     # HELFER ERZEUGEN
     # -----------------
@@ -95,6 +99,10 @@ class GameView(arcade.View):
         self.paused = True
         self.ui.disable()  # Haupt-UI deaktivieren
         self.window.show_view(StoreView(self))
+        self.store += 1
+        if self.store == 2:
+            self.paused = False
+            self.ui.enable()
 
     # -----------------
     # OPTIONS ÖFFNEN
@@ -103,6 +111,17 @@ class GameView(arcade.View):
         self.paused = True
         self.ui.disable()  # Haupt-UI deaktivieren
         self.window.show_view(OptionsView(self))
+        if self.options == 2:
+            self.paused = False
+            self.ui.enable()
+
+    #----------------
+    # On_Key_Press
+    #----------------
+    def on_key_press(self, key, modifiers):
+        if key == arcade.key.P:
+            print(self.paused)
+
 
     # -----------------
     # ZEICHNEN
@@ -110,6 +129,7 @@ class GameView(arcade.View):
     def on_draw(self):
         self.clear()
         arcade.draw_sprite(self.clicker)
+
 
         # Helfer
         for upgrade in self.upgrades:
@@ -135,9 +155,9 @@ class GameView(arcade.View):
             y_offset += 25
 
         if self.paused:
-            arcade.draw_text("PAUSIERT", SCREEN_WIDTH // 2, SCREEN_HEIGHT - 40, arcade.color.RED, 20,
-                             anchor_x="center")
-
+            self.click = False
+            print("PAUSIERT")
+        
     # -----------------
     # MAUSKLICK
     # -----------------
