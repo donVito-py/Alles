@@ -27,7 +27,7 @@ class Upgrade:
 
     def buy(self):
         self.count += 1
-        self.price = int(self.price * 1.15)
+        self.price = int(self.price * 1.5)
 
 
 # ===============================
@@ -43,10 +43,29 @@ class GameView(arcade.View):
         self.timer = 0
         self.rotation_time = 0
 
+        # 🔽 JEDER HELFER HAT SEIN EIGENES SPRITE 🔽
         self.upgrades = [
-            Upgrade("Mauszeiger Helfer", 10, 1),
-            Upgrade("Super Helfer", 100, 5, scale=0.12),
-            Upgrade("Mega Helfer", 500, 20, scale=0.15),
+            Upgrade(
+                name="Mauszeiger Helfer",
+                base_price=10,
+                increment=1,
+                sprite="Mauszeiger.png",
+                scale=0.08
+            ),
+            Upgrade(
+                name="Super Helfer",
+                base_price=100,
+                increment=5,
+                sprite="SuperHelfer.png",   # 👈 ANDERES SPRITE
+                scale=0.12
+            ),
+            Upgrade(
+                name="Mega Helfer",
+                base_price=500,
+                increment=20,
+                sprite="Mauszeiger.png",
+                scale=0.15
+            ),
         ]
 
         self.clicker = arcade.Sprite("Background.png", 0.75)
@@ -71,8 +90,6 @@ class GameView(arcade.View):
         self.load_game()
 
     # -----------------
-    # RESET
-    # -----------------
     def reset_game(self):
         self.glitches = 0
         self.timer = 0
@@ -88,10 +105,10 @@ class GameView(arcade.View):
 
     # -----------------
     def create_helper_sprite(self, upgrade):
-        sprite = arcade.Sprite(upgrade.sprite, upgrade.scale)
-        sprite.center_x = self.clicker.center_x
-        sprite.center_y = self.clicker.center_y
-        upgrade.sprites.append(sprite)
+        helper = arcade.Sprite(upgrade.sprite, upgrade.scale)
+        helper.center_x = self.clicker.center_x
+        helper.center_y = self.clicker.center_y
+        upgrade.sprites.append(helper)
 
     # -----------------
     def open_store(self, event):
@@ -126,10 +143,6 @@ class GameView(arcade.View):
         for u in self.upgrades:
             arcade.draw_text(f"{u.name}: {u.count}", 10, y, arcade.color.BLACK, 16)
             y += 25
-
-        if self.paused:
-            arcade.draw_text("PAUSIERT", SCREEN_WIDTH // 2, SCREEN_HEIGHT - 40,
-                             arcade.color.RED, 20, anchor_x="center")
 
     # -----------------
     def on_mouse_press(self, x, y, button, modifiers):
@@ -174,8 +187,6 @@ class GameView(arcade.View):
                 h.center_y = self.clicker.center_y + math.sin(rad) * 140
                 h.angle = -angle
 
-    # -----------------
-    # SAVE / LOAD
     # -----------------
     def save_game(self):
         data = {
@@ -252,7 +263,6 @@ class StoreView(arcade.View):
         self.game.paused = False
         self.game.ui.enable()
         self.game.save_game()
-        self.game.ui.disable()
         self.window.show_view(self.game)
 
     def on_draw(self):
