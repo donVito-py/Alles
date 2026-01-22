@@ -38,6 +38,10 @@ class GameView(arcade.View):
         super().__init__()
         arcade.set_background_color(arcade.color.WHITE)
 
+        self.music = arcade.load_sound("Sweden.mp3")
+        self.music_player = None
+        self.music_on = True    
+
         self.paused = False
         self.glitches = 0
         self.timer = 0
@@ -88,6 +92,15 @@ class GameView(arcade.View):
 
         self.click_effects = []
         self.load_game()
+        self.start_music()
+    #------------------
+    def start_music(self):
+        if self.music_on and self.music_player is None:
+            self.music_player = arcade.play_sound(
+                self.music,
+                #looping=True,
+                volume=2.0
+            )
 
     # -----------------
     def reset_game(self):
