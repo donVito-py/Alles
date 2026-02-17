@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <title>Unterschriften Liste</title>
+</head>
+<body>
+
+<h1>Liste der Unterschriften</h1>
+
+<input type="text" id="nameInput" placeholder="Name eingeben">
+<button id="hinzufuegenBtn">Hinzufügen</button>
+
+<ul id="unterschriftenListe"></ul>
+
+<script>
+const liste = document.getElementById("unterschriftenListe");
+const input = document.getElementById("nameInput");
+const button = document.getElementById("hinzufuegenBtn");
+
+// Alle Unterschriften laden
+fetch('/get')
+  .then(res => res.json())
+  .then(daten => {
+    daten.Unterschriften.forEach(name => {
+      const li = document.createElement("li");
+      li.textContent = name;
+      liste.appendChild(li);
+    });
+  });
+
+// Namen hinzufügen
+button.addEventListener("click", () => {
+  const name = input.value.trim();
+  if (!name) return;
+
+  fetch('/add', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ name })
+  })
+  .then(res => res.json())
+  .then(response => {
+    if (response.success) {
+      const li = document.createElement("li");
+      li.textContent = name;
+      liste.appendChild(li);
+      input.value = "";
+    } else {
+      alert("Name existiert bereits oder ungültig!");
+    }
+  });
+});
+</script>
+
+</body>
+</html>

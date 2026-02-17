@@ -1,7 +1,7 @@
 import json
 import os
 
-dateiname = "Ich.json"
+dateiname = "Unterschriften.json"
 
 # Falls die Datei existiert → laden
 if os.path.exists(dateiname):

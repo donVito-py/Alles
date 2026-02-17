@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <title>Besucher Dashboard</title>
+</head>
+<body>
+    <h1>Besucher auf dem Server</h1>
+    <table border="1" cellpadding="5">
+        <tr>
+            <th>IP-Adresse</th>
+            <th>Letzter Besuch</th>
+        </tr>
+        {% for visit in visits %}
+        <tr>
+            <td>{{ visit.ip }}</td>
+            <td>{{ visit.zeit }}</td>
+        </tr>
+        {% endfor %}
+    </table>
+</body>
+</html>
