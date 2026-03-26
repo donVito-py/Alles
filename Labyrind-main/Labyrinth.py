@@ -12,7 +12,7 @@ class Labyrinth(arcade.Window):
         self.exits = ["exit1", "exit2", "exit3", "exit4", "exit5"]
         self.exit_choice = random.choice(self.exits)
         print(self.exit_choice)
-        self.time = 0 
+        self.zeit = 0 
         
 
         self.hacker = input()
@@ -704,8 +704,8 @@ class Labyrinth(arcade.Window):
         self.spieler_liste.update()
         if self.hacker != "⠀":
             self.physiks.update()
-        self.time = self.time + delta_time
-        if self.time <= 10:
+        self.zeit = self.zeit + delta_time
+        if self.zeit <= 10:
             arcade.draw_text("Entschärfe die Bombe",)
        
 
