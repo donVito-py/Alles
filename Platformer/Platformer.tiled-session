@@ -9,11 +9,11 @@
     ],
     "fileStates": {
         "Platfomer.tmx": {
-            "scale": 1,
+            "scale": 0.08642578125,
             "selectedLayer": 0,
             "viewCenter": {
-                "x": 114.5,
-                "y": 41
+                "x": 60566.418079096045,
+                "y": 67734.41807909604
             }
         },
         "Platformer_bilder_1.tsx": {
@@ -31,17 +31,19 @@
         }
     },
     "last.imagePath": "/Users/vitusalber/Desktop/GitHub/Alles/Platformer/free-swamp-game-tileset-pixel-art/3 Objects/Willows",
-    "map.fixedSize": false,
+    "map.fixedSize": true,
+    "map.height": 3000,
     "map.lastUsedFormat": "tmx",
+    "map.width": 3000,
     "openFiles": [
-        "Platfomer.tmx",
         "Platformer_bilder_boden.tsx",
-        "Platformer_bilder_objekts.tsx"
+        "Platformer_bilder_objekts.tsx",
+        "Platfomer.tmx"
     ],
     "project": "Platformer.tiled-project",
     "recentFiles": [
-        "Platformer_bilder_objekts.tsx",
         "Platformer_bilder_boden.tsx",
+        "Platformer_bilder_objekts.tsx",
         "Platfomer.tmx"
     ],
     "tileset.lastUsedFormat": "tsx",
