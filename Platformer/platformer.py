@@ -47,7 +47,7 @@ class GameWindow(arcade.Window):
         self.tile_map = arcade.load_tilemap(MAP_FILE_PATH, TILE_SCALING)
         self.scene = arcade.Scene.from_tilemap(self.tile_map)
 
-        self.simple_physics_engine = arcade.PhysicsEngineSimple(self.player_sprite_list, self.tile_map["Wall"])
+        self.simple_physics_engine = arcade.PhysicsEnginePlatformer(self.player_sprite, self.scene["Wall"], gravity_constant=0.5)
     
         # Setze die Kamera
         self.camera = arcade.camera.Camera2D()
@@ -80,7 +80,7 @@ class GameWindow(arcade.Window):
     def on_update(self, delta_time):
         self.camera.position = self.player_sprite.position
         self.player_sprite_list.update()
-
+        self.simple_physics_engine.update()
     def on_draw(self):
         """Zeichne das Spiel."""
         self.clear()
