@@ -208,6 +208,7 @@ class GameView(arcade.View):
         }
         with open(SAVE_FILE, "w") as f:
             json.dump(data, f)
+            
 
     def load_game(self):
         if not os.path.exists(SAVE_FILE):

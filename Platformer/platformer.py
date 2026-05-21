@@ -26,13 +26,9 @@ class GameWindow(arcade.Window):
 
         self.background_color = arcade.color.LIGHT_BLUE
 
-        
 
 
-
-
-
-        self.player_sprite = arcade.load_animated_gif("FreeKnight_v1/11/__Idle.gif")
+        self.player_sprite = arcade.load_animated_gif("FreeKnight_v1/11/__WallClimb.gif")
 
         #self.player_sprite = arcade.Sprite("tower.png")
         self.player_sprite.center_x = 180
@@ -57,13 +53,13 @@ class GameWindow(arcade.Window):
         if key == arcade.key.ESCAPE:
             self.close()
         if key == arcade.key.RIGHT or key ==arcade.key.D:
-            self.player_sprite.change_x = 5
+            self.player_sprite.change_x = 3
         if key == arcade.key.LEFT or key==arcade.key.A:
-            self.player_sprite.change_x = -5
+            self.player_sprite.change_x = -3
         if key == arcade.key.UP or key == arcade.key.W:
-            self.player_sprite.change_y = 5
+            self.player_sprite.change_y = 7
         if key == arcade.key.DOWN or key == arcade.key.S:
-            self.player_sprite.change_y = -5
+            self.player_sprite.change_y = -3
 
     def on_key_release(self, key, modifiers):
         """Reagiere auf Loslassen einer Taste."""
@@ -81,6 +77,11 @@ class GameWindow(arcade.Window):
         self.camera.position = self.player_sprite.position
         self.player_sprite_list.update()
         self.simple_physics_engine.update()
+        self.player_sprite.update()
+
+
+
+
     def on_draw(self):
         """Zeichne das Spiel."""
         self.clear()
