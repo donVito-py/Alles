@@ -1,5 +1,5 @@
 import arcade
-
+from enum import Enum
 # ============================================================================
 # KONSTANTEN
 # ============================================================================
@@ -10,6 +10,28 @@ SCREEN_TITLE = "Platti"
 
 TILE_SCALING = 1.0
 MAP_FILE_PATH = "Platfomer.tmx"
+PLAYER_SCALE = 0.05
+PLAYER_START_X = 180
+PLAYER_START_Y = 760
+CAMERA_LERP = 0.25
+
+
+class PlayerState(Enum):
+    """Alle möglichen Player-States."""
+    IDLE = "Idle"
+    RUN = "Run"
+    JUMP = "Jump"
+    FALL = "Fall"
+    ATTACK = "Attack"
+    CROUCH = "Crouch"
+    DASH = "Dash"
+    ROLL = "Roll"
+    HIT = "Hit"
+    DEATH = "Death"
+    WALL_SLIDE = "WallSlide"
+    WALL_CLIMB = "WallClimb"
+    SLIDE = "Slide"
+
 
 
 # ============================================================================
@@ -28,13 +50,16 @@ class GameWindow(arcade.Window):
 
 
 
-        self.player_sprite = arcade.load_animated_gif("FreeKnight_v1/11/__WallClimb.gif")
+       
 
-        #self.player_sprite = arcade.Sprite("tower.png")
-        self.player_sprite.center_x = 180
-        self.player_sprite.center_y = 770
-        self.player_sprite.scale = 1.5
+        self.player_sprite = arcade.Sprite()
+        self.player_sprite.texture = arcade.load_texture("tower.png", hit_box_algorithm=arcade.hitbox.algo_detailed)
+        self.player_sprite.center_x = PLAYER_START_X
+        self.player_sprite.center_y = PLAYER_START_Y
+        self.player_sprite.scale = PLAYER_SCALE
         self.player_sprite_list.append(self.player_sprite)
+
+    
 
 
 
@@ -47,19 +72,22 @@ class GameWindow(arcade.Window):
     
         # Setze die Kamera
         self.camera = arcade.camera.Camera2D()
+        # Initialisiere die geglättete Kameraposition zentriert auf den Spieler
+        self.camera_x = self.player_sprite.center_x - SCREEN_WIDTH / 2
+        self.camera_y = self.player_sprite.center_y - SCREEN_HEIGHT / 2
+        self.camera.position = (self.camera_x, self.camera_y)
 
     def on_key_press(self, key, modifiers):
         """Reagiere auf Tastendruck."""
         if key == arcade.key.ESCAPE:
             self.close()
-        if key == arcade.key.RIGHT or key ==arcade.key.D:
+        if key == arcade.key.RIGHT or key == arcade.key.D:
             self.player_sprite.change_x = 3
-        if key == arcade.key.LEFT or key==arcade.key.A:
-            self.player_sprite.change_x = -3
+        if key == arcade.key.LEFT or key == arcade.key.A:
+            self.player_sprite.change_x = 3
         if key == arcade.key.UP or key == arcade.key.W:
-            self.player_sprite.change_y = 7
-        if key == arcade.key.DOWN or key == arcade.key.S:
-            self.player_sprite.change_y = -3
+            if self.simple_physics_engine.can_jump():
+                self.player_sprite.change_y = 12
 
     def on_key_release(self, key, modifiers):
         """Reagiere auf Loslassen einer Taste."""
@@ -68,16 +96,25 @@ class GameWindow(arcade.Window):
         if key == arcade.key.LEFT or key == arcade.key.A:
             self.player_sprite.change_x = 0
         if key == arcade.key.UP or key == arcade.key.W:
-            self.player_sprite.change_y = 0
+            pass
         if key == arcade.key.DOWN or key == arcade.key.S:
             self.player_sprite.change_y = 0
+        if key == arcade.key.R:
+            self.setup()
+            self.player_sprite.center_x = PLAYER_START_X
+            self.player_sprite.center_y = PLAYER_START_Y
 
 
     def on_update(self, delta_time):
-        self.camera.position = self.player_sprite.position
-        self.player_sprite_list.update()
+        # Update physics and player position
         self.simple_physics_engine.update()
-        self.player_sprite.update()
+
+        # Smooth camera follow (linear interpolation)
+        target_x = self.player_sprite.center_x
+        target_y = self.player_sprite.center_y 
+        self.camera_x += (target_x - self.camera_x) * CAMERA_LERP
+        self.camera_y += (target_y - self.camera_y) * CAMERA_LERP
+        self.camera.position = (self.camera_x, self.camera_y)
 
 
 
