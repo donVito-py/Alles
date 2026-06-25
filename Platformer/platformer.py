@@ -52,14 +52,69 @@ class GameWindow(arcade.Window):
 
        
 
+    
         self.player_sprite = arcade.Sprite()
         self.player_sprite.texture = arcade.load_texture("tower.png", hit_box_algorithm=arcade.hitbox.algo_detailed)
         self.player_sprite.center_x = PLAYER_START_X
         self.player_sprite.center_y = PLAYER_START_Y
         self.player_sprite.scale = PLAYER_SCALE
         self.player_sprite_list.append(self.player_sprite)
+        #============================
+        # Music
+        #============================
 
-    
+        arcade.load_sound("music.mp3")
+        arcade.play_sound(arcade.load_sound("music.mp3"), volume=0.1, loop=True)
+
+        #============================
+        # Animationen
+        #============================
+
+        self.animation_index = 0
+
+        self.animation_frames_attack = [arcade.load_texture(f"FreeKnight_v1_frames/attack/attack_{i}.png") for i in range(0, 3)]
+
+        self.animation_frames_attack_combo = [arcade.load_texture(f"FreeKnight_v1_frames/attack_combo/attack_combo_{i}.png") for i in range(0, 9)]
+
+        self.animation_frames_ = [arcade.load_texture(f"FreeKnight_v1_frames/attack/_{i}.png") for i in range(0, )]
+
+        self.animation_frames_attack = [arcade.load_texture(f"FreeKnight_v1_frames/attack/attack_{i}.png") for i in range(0, 3)]
+
+        self.animation_frames_attack = [arcade.load_texture(f"FreeKnight_v1_frames/attack/attack_{i}.png") for i in range(0, 3)]
+        
+        self.animation_frames_attack = [arcade.load_texture(f"FreeKnight_v1_frames/attack/attack_{i}.png") for i in range(0, 3)]
+        
+        self.animation_frames_attack = [arcade.load_texture(f"FreeKnight_v1_frames/attack/attack_{i}.png") for i in range(0, 3)]
+        
+        self.animation_frames_attack = [arcade.load_texture(f"FreeKnight_v1_frames/attack/attack_{i}.png") for i in range(0, 3)]
+        
+        self.animation_frames_attack = [arcade.load_texture(f"FreeKnight_v1_frames/attack/attack_{i}.png") for i in range(0, 3)]
+        
+        self.animation_frames_attack = [arcade.load_texture(f"FreeKnight_v1_frames/attack/attack_{i}.png") for i in range(0, 3)]
+        
+        self.animation_frames_attack = [arcade.load_texture(f"FreeKnight_v1_frames/attack/attack_{i}.png") for i in range(0, 3)]
+        
+        self.animation_frames_attack = [arcade.load_texture(f"FreeKnight_v1_frames/attack/attack_{i}.png") for i in range(0, 3)]
+        
+        self.animation_frames_attack = [arcade.load_texture(f"FreeKnight_v1_frames/attack/attack_{i}.png") for i in range(0, 3)]
+        
+        self.animation_frames_attack = [arcade.load_texture(f"FreeKnight_v1_frames/attack/attack_{i}.png") for i in range(0, 3)]
+        
+        self.animation_frames_attack = [arcade.load_texture(f"FreeKnight_v1_frames/attack/attack_{i}.png") for i in range(0, 3)]
+        
+        self.animation_frames_attack = [arcade.load_texture(f"FreeKnight_v1_frames/attack/attack_{i}.png") for i in range(0, 3)]
+        
+        self.animation_frames_attack = [arcade.load_texture(f"FreeKnight_v1_frames/attack/attack_{i}.png") for i in range(0, 3)]
+        
+        self.animation_frames_attack = [arcade.load_texture(f"FreeKnight_v1_frames/attack/attack_{i}.png") for i in range(0, 3)]
+        
+        self.animation_frames_attack = [arcade.load_texture(f"FreeKnight_v1_frames/attack/attack_{i}.png") for i in range(0, 3)]
+        
+        self.animation_frames_attack = [arcade.load_texture(f"FreeKnight_v1_frames/attack/attack_{i}.png") for i in range(0, 3)]
+        
+        self.animation_frames_attack = [arcade.load_texture(f"FreeKnight_v1_frames/attack/attack_{i}.png") for i in range(0, 3)]
+        
+        self.animation_frames_attack = [arcade.load_texture(f"FreeKnight_v1_frames/attack/attack_{i}.png") for i in range(0, 3)]
 
 
 
@@ -84,7 +139,7 @@ class GameWindow(arcade.Window):
         if key == arcade.key.RIGHT or key == arcade.key.D:
             self.player_sprite.change_x = 3
         if key == arcade.key.LEFT or key == arcade.key.A:
-            self.player_sprite.change_x = 3
+            self.player_sprite.change_x = -3
         if key == arcade.key.UP or key == arcade.key.W:
             if self.simple_physics_engine.can_jump():
                 self.player_sprite.change_y = 12

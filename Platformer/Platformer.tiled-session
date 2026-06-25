@@ -1,0 +1,24 @@
+{
+    "activeFile": "",
+    "expandedProjectPaths": [
+        "."
+    ],
+    "fileStates": {
+        "Platformer_bilder_boden.tsx": {
+            "dynamicWrapping": true
+        }
+    },
+    "openFiles": [
+        "Platformer_bilder_boden.tsx",
+        "Platformer_bilder_objekts.tsx",
+        "Platfomer.tmx",
+        "Platformer_bilder_monster.tsx"
+    ],
+    "project": "",
+    "recentFiles": [
+        "Platformer_bilder_boden.tsx",
+        "Platformer_bilder_objekts.tsx",
+        "Platformer_bilder_monster.tsx",
+        "Platfomer.tmx"
+    ]
+}

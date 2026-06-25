@@ -130,7 +130,7 @@ class AnimationManager:
             PlayerState.FALL: 0.15,
             PlayerState.ATTACK: 1.08,
             PlayerState.ATTACK2: 0.08,
-            PlayerState.ATTACK_COMBO: 0.08,
+            PlayerState.ATTACK_COMBO: 0.08, 
             PlayerState.CROUCH: 0.1,
             PlayerState.CROUCH_ATTACK: 0.08,
             PlayerState.CROUCH_WALK: 0.1,
