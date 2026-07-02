@@ -14,7 +14,7 @@ PLAYER_SCALE = 0.05
 PLAYER_START_X = 180
 PLAYER_START_Y = 760
 CAMERA_LERP = 0.25
-
+DEATH_TIME = 0.1
 
 class PlayerState(Enum):
     """Alle möglichen Player-States."""
@@ -48,6 +48,7 @@ class GameWindow(arcade.Window):
 
         self.background_color = arcade.color.LIGHT_BLUE
 
+        self.death_time = DEATH_TIME
 
 
        
@@ -72,49 +73,50 @@ class GameWindow(arcade.Window):
 
         self.animation_index = 0
 
-        self.animation_frames_attack = [arcade.load_texture(f"FreeKnight_v1_frames/attack/attack_{i}.png") for i in range(0, 3)]
+        self.animation_frames_attack = [arcade.load_texture(f"FreeKnight_v1_frames/attack/attack_{i}.png") for i in range(0, 4)]
 
-        self.animation_frames_attack_combo = [arcade.load_texture(f"FreeKnight_v1_frames/attack_combo/attack_combo_{i}.png") for i in range(0, 9)]
+        self.animation_frames_attack_combo = [arcade.load_texture(f"FreeKnight_v1_frames/attack_combo/attack_combo_{i}.png") for i in range(0, 10)]
 
-        self.animation_frames_ = [arcade.load_texture(f"FreeKnight_v1_frames/attack/_{i}.png") for i in range(0, )]
+        self.animation_frames_attack2 = [arcade.load_texture(f"FreeKnight_v1_frames/attack2/attack2_{i}.png") for i in range(0, 6)]
 
-        self.animation_frames_attack = [arcade.load_texture(f"FreeKnight_v1_frames/attack/attack_{i}.png") for i in range(0, 3)]
+        self.animation_frames_crouch = [arcade.load_texture(f"FreeKnight_v1_frames/crouch/crouch_{i}.png") for i in range(0, 1)]
 
-        self.animation_frames_attack = [arcade.load_texture(f"FreeKnight_v1_frames/attack/attack_{i}.png") for i in range(0, 3)]
-        
-        self.animation_frames_attack = [arcade.load_texture(f"FreeKnight_v1_frames/attack/attack_{i}.png") for i in range(0, 3)]
-        
-        self.animation_frames_attack = [arcade.load_texture(f"FreeKnight_v1_frames/attack/attack_{i}.png") for i in range(0, 3)]
-        
-        self.animation_frames_attack = [arcade.load_texture(f"FreeKnight_v1_frames/attack/attack_{i}.png") for i in range(0, 3)]
-        
-        self.animation_frames_attack = [arcade.load_texture(f"FreeKnight_v1_frames/attack/attack_{i}.png") for i in range(0, 3)]
-        
-        self.animation_frames_attack = [arcade.load_texture(f"FreeKnight_v1_frames/attack/attack_{i}.png") for i in range(0, 3)]
-        
-        self.animation_frames_attack = [arcade.load_texture(f"FreeKnight_v1_frames/attack/attack_{i}.png") for i in range(0, 3)]
-        
-        self.animation_frames_attack = [arcade.load_texture(f"FreeKnight_v1_frames/attack/attack_{i}.png") for i in range(0, 3)]
-        
-        self.animation_frames_attack = [arcade.load_texture(f"FreeKnight_v1_frames/attack/attack_{i}.png") for i in range(0, 3)]
-        
-        self.animation_frames_attack = [arcade.load_texture(f"FreeKnight_v1_frames/attack/attack_{i}.png") for i in range(0, 3)]
-        
-        self.animation_frames_attack = [arcade.load_texture(f"FreeKnight_v1_frames/attack/attack_{i}.png") for i in range(0, 3)]
-        
-        self.animation_frames_attack = [arcade.load_texture(f"FreeKnight_v1_frames/attack/attack_{i}.png") for i in range(0, 3)]
-        
-        self.animation_frames_attack = [arcade.load_texture(f"FreeKnight_v1_frames/attack/attack_{i}.png") for i in range(0, 3)]
-        
-        self.animation_frames_attack = [arcade.load_texture(f"FreeKnight_v1_frames/attack/attack_{i}.png") for i in range(0, 3)]
-        
-        self.animation_frames_attack = [arcade.load_texture(f"FreeKnight_v1_frames/attack/attack_{i}.png") for i in range(0, 3)]
-        
-        self.animation_frames_attack = [arcade.load_texture(f"FreeKnight_v1_frames/attack/attack_{i}.png") for i in range(0, 3)]
-        
-        self.animation_frames_attack = [arcade.load_texture(f"FreeKnight_v1_frames/attack/attack_{i}.png") for i in range(0, 3)]
-        
-        self.animation_frames_attack = [arcade.load_texture(f"FreeKnight_v1_frames/attack/attack_{i}.png") for i in range(0, 3)]
+        self.animation_frames_crouch_attack = [arcade.load_texture(f"FreeKnight_v1_frames/crouch_attack/crouch_attack_{i}.png") for i in range(0, 4)]
+
+        self.animation_frames_crouch_walk = [arcade.load_texture(f"FreeKnight_v1_frames/crouch_walk/crouch_walk_{i}.png") for i in range(0, 8)]
+
+        self.animation_frames_dash = [arcade.load_texture(f"FreeKnight_v1_frames/dash/dash_{i}.png") for i in range(0, 2)]
+
+        self.animation_frames_death = [arcade.load_texture(f"FreeKnight_v1_frames/death/death_{i}.png") for i in range(0, 10)]
+
+        # self.animation_frames_ = [arcade.load_texture(f"FreeKnight_v1_frames/attack/_{i}.png") for i in range(0, )]
+
+        # self.animation_frames_ = [arcade.load_texture(f"FreeKnight_v1_frames/attack/_{i}.png") for i in range(0, )]
+
+        # self.animation_frames_ = [arcade.load_texture(f"FreeKnight_v1_frames/attack/_{i}.png") for i in range(0, )]
+
+        # self.animation_frames_ = [arcade.load_texture(f"FreeKnight_v1_frames/attack/_{i}.png") for i in range(0, )]
+
+        # self.animation_frames_ = [arcade.load_texture(f"FreeKnight_v1_frames/attack/_{i}.png") for i in range(0, )]
+
+        # self.animation_frames_ = [arcade.load_texture(f"FreeKnight_v1_frames/attack/_{i}.png") for i in range(0, )]
+
+        # self.animation_frames_ = [arcade.load_texture(f"FreeKnight_v1_frames/attack/_{i}.png") for i in range(0, )]
+
+        # self.animation_frames_ = [arcade.load_texture(f"FreeKnight_v1_frames/attack/_{i}.png") for i in range(0, )]
+
+        # self.animation_frames_ = [arcade.load_texture(f"FreeKnight_v1_frames/attack/_{i}.png") for i in range(0, )]
+
+        # self.animation_frames_ = [arcade.load_texture(f"FreeKnight_v1_frames/attack/_{i}.png") for i in range(0, )]
+
+        # self.animation_frames_ = [arcade.load_texture(f"FreeKnight_v1_frames/attack/_{i}.png") for i in range(0, )]
+
+        # self.animation_frames_ = [arcade.load_texture(f"FreeKnight_v1_frames/attack/_{i}.png") for i in range(0, )]
+
+        # self.animation_frames_ = [arcade.load_texture(f"FreeKnight_v1_frames/attack/_{i}.png") for i in range(0, )]
+
+        # self.animation_frames_ = [arcade.load_texture(f"FreeKnight_v1_frames/attack/_{i}.png") for i in range(0, )]
+
 
 
 
@@ -124,13 +126,18 @@ class GameWindow(arcade.Window):
         self.scene = arcade.Scene.from_tilemap(self.tile_map)
 
         self.simple_physics_engine = arcade.PhysicsEnginePlatformer(self.player_sprite, self.scene["Wall"], gravity_constant=0.5)
+
     
         # Setze die Kamera
         self.camera = arcade.camera.Camera2D()
         # Initialisiere die geglättete Kameraposition zentriert auf den Spieler
-        self.camera_x = self.player_sprite.center_x - SCREEN_WIDTH / 2
-        self.camera_y = self.player_sprite.center_y - SCREEN_HEIGHT / 2
+        self.camera_x = self.player_sprite.center_x
+        self.camera_y = self.player_sprite.center_y 
         self.camera.position = (self.camera_x, self.camera_y)
+        self.player_sprite.center_x = PLAYER_START_X
+        self.player_sprite.center_y = PLAYER_START_Y
+        self.death_time = DEATH_TIME
+
 
     def on_key_press(self, key, modifiers):
         """Reagiere auf Tastendruck."""
@@ -140,9 +147,11 @@ class GameWindow(arcade.Window):
             self.player_sprite.change_x = 3
         if key == arcade.key.LEFT or key == arcade.key.A:
             self.player_sprite.change_x = -3
-        if key == arcade.key.UP or key == arcade.key.W:
+        if key == arcade.key.UP or key == arcade.key.W or key == arcade.key.SPACE:
             if self.simple_physics_engine.can_jump():
                 self.player_sprite.change_y = 12
+        if key == arcade.key.DOWN or key == arcade.key.S or key == arcade.key.MOD_SHIFT:
+            self.animation_frames_crouch
 
     def on_key_release(self, key, modifiers):
         """Reagiere auf Loslassen einer Taste."""
@@ -156,13 +165,15 @@ class GameWindow(arcade.Window):
             self.player_sprite.change_y = 0
         if key == arcade.key.R:
             self.setup()
-            self.player_sprite.center_x = PLAYER_START_X
-            self.player_sprite.center_y = PLAYER_START_Y
 
 
     def on_update(self, delta_time):
+        # Aktualisiere den Spielzustand.
+        self.animation_index += delta_time
+
         # Update physics and player position
         self.simple_physics_engine.update()
+        print(delta_time)
 
         # Smooth camera follow (linear interpolation)
         target_x = self.player_sprite.center_x
@@ -170,6 +181,12 @@ class GameWindow(arcade.Window):
         self.camera_x += (target_x - self.camera_x) * CAMERA_LERP
         self.camera_y += (target_y - self.camera_y) * CAMERA_LERP
         self.camera.position = (self.camera_x, self.camera_y)
+        #death check
+        self.death = arcade.check_for_collision_with_list(self.player_sprite, self.scene["Death"])
+        if self.death:
+            self.death_time -= delta_time
+        if self.death and self.death_time <= 0:
+            self.setup()
 
 
 
