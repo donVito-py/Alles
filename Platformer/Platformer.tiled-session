@@ -6,10 +6,10 @@
     "fileStates": {
         "Platfomer.tmx": {
             "scale": 0.75,
-            "selectedLayer": 0,
+            "selectedLayer": 4,
             "viewCenter": {
-                "x": 1520.6666666666665,
-                "y": 533.3333333333333
+                "x": 1091.3333333333335,
+                "y": 481.33333333333326
             }
         },
         "Platformer_bilder_boden.tsx": {
