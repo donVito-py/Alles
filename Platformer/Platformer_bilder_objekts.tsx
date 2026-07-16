@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<tileset version="1.10" tiledversion="1.11.2" name="Platformer_bilder_objekts" tilewidth="199" tileheight="183" tilecount="61" columns="0">
+<tileset version="1.10" tiledversion="1.11.2" name="Platformer_bilder_objekts" tilewidth="199" tileheight="183" tilecount="62" columns="0">
  <grid orientation="orthogonal" width="1" height="1"/>
  <tile id="0">
   <image source="free-swamp-game-tileset-pixel-art/3 Objects/Boxes/1.png" width="34" height="28"/>
@@ -183,5 +183,8 @@
  </tile>
  <tile id="62">
   <image source="../../../../Downloads/portal.png" width="128" height="128"/>
+ </tile>
+ <tile id="68">
+  <image source="../../../../Downloads/BarrierNew-32w-downscale.net.png" width="32" height="32"/>
  </tile>
 </tileset>

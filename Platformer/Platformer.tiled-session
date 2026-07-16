@@ -5,11 +5,11 @@
     ],
     "fileStates": {
         "Platfomer.tmx": {
-            "scale": 0.75,
-            "selectedLayer": 4,
+            "scale": 0.7613,
+            "selectedLayer": 0,
             "viewCenter": {
-                "x": 1091.3333333333335,
-                "y": 481.33333333333326
+                "x": 2717.0629186917113,
+                "y": 613.4244056219625
             }
         },
         "Platformer_bilder_boden.tsx": {
@@ -26,6 +26,7 @@
             "scaleInEditor": 1
         }
     },
+    "last.imagePath": "/Users/vitusalber/Downloads",
     "openFiles": [
         "Platformer_bilder_boden.tsx",
         "Platformer_bilder_objekts.tsx",

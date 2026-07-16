@@ -1,256 +1,446 @@
 import arcade
-from enum import Enum
 import random
-import time
+from enum import Enum
+
 # ============================================================================
-# KONSTANTEN
+# KONSTANTEN - Screen
 # ============================================================================
 
 SCREEN_WIDTH = 1280
 SCREEN_HEIGHT = 720
 SCREEN_TITLE = "Platti"
 
+# ============================================================================
+# KONSTANTEN - Game
+# ============================================================================
+
 TILE_SCALING = 1.0
 MAP_FILE_PATH = "Platfomer.tmx"
+
+# ============================================================================
+# KONSTANTEN - Player
+# ============================================================================
+
 PLAYER_SCALE = 1
 PLAYER_START_X = 180
-PLAYER_START_Y = 760
-CAMERA_LERP = 0.25
+PLAYER_START_Y = 2650
+
+# ============================================================================
+# KONSTANTEN - Physics
+# ============================================================================
+
+GRAVITY_CONSTANT = 0.5
+JUMP_SPEED = 12
+WALK_SPEED = 4
+COYOTE_TIME = 0.15  # Sekunden Verzögerung nach dem Verlassen des Bodens zum Springen
+CAMERA_LERP = 0.25  # Kamera-Glättung (0-1)
+
+# ============================================================================
+# KONSTANTEN - Animation
+# ============================================================================
+
+ANIMATION_FRAME_DURATION = 0.08  # Sekunden pro Frame
 DEATH_TIME = 0.1
+
+# ============================================================================
+# KONSTANTEN - Audio
+# ============================================================================
+
+MUSIC_FILE = "music.mp3"
+MUSIC_VOLUME = 0.1
+
+
+# ============================================================================
+# ENUMS
+# ============================================================================
 
 class PlayerState(Enum):
     """Alle möglichen Player-States."""
-    IDLE = "Idle"
-    RUN = "Run"
-    JUMP = "Jump"
-    FALL = "Fall"
-    ATTACK = "Attack"
-    CROUCH = "Crouch"
-    DASH = "Dash"
-    ROLL = "Roll"
-    HIT = "Hit"
-    DEATH = "Death"
-    WALL_SLIDE = "WallSlide"
-    WALL_CLIMB = "WallClimb"
-    SLIDE = "Slide"
 
+    IDLE = "idle"
+    RUN = "run"
+    JUMP = "jump"
+    FALL = "fall"
+    ATTACK = "attack"
+    ATTACK_COMBO = "attack_combo"
+    ATTACK2 = "attack2"
+    CROUCH = "crouch"
+    CROUCH_ATTACK = "crouch_attack"
+    CROUCH_WALK = "crouch_walk"
+    DASH = "dash"
+    DEATH = "death"
+    DEATH_NO_MOVEMENT = "death_no_movement"
+    HIT = "hit"
+    ROLL = "roll"
+    SLIDE = "slide"
+    SLIDE_ALL = "slide_all"
+    TURN_AROUND = "turn_around"
+    WALL_CLIMB = "wall_climb"
+    WALL_HANG = "wall_hang"
+    WALL_SLIDE = "wall_slide"
 
 
 # ============================================================================
-# GAME CLASS
+# ANIMATION LOADER
+# ============================================================================
+
+class AnimationLoader:
+    """Lädt und verwaltet alle Animationen für den Spieler."""
+
+    # Mapping von State zu Animationen-Verzeichnis und Frame-Anzahl
+    ANIMATION_DATA = {
+        PlayerState.ATTACK: ("attack", 4),
+        PlayerState.ATTACK_COMBO: ("attack_combo", 10),
+        PlayerState.ATTACK2: ("attack2", 6),
+        PlayerState.CROUCH: ("crouch", 1),
+        PlayerState.CROUCH_ATTACK: ("crouch_attack", 4),
+        PlayerState.CROUCH_WALK: ("crouch_walk", 8),
+        PlayerState.DASH: ("dash", 2),
+        PlayerState.DEATH: ("death", 10),
+        PlayerState.DEATH_NO_MOVEMENT: ("death_no_movement", 10),
+        PlayerState.FALL: ("fall", 3),
+        PlayerState.HIT: ("hit", 1),
+        PlayerState.IDLE: ("idle", 10),
+        PlayerState.JUMP: ("jump", 3),
+        PlayerState.ROLL: ("roll", 12),
+        PlayerState.RUN: ("run", 10),
+        PlayerState.SLIDE: ("slide", 2),
+        PlayerState.SLIDE_ALL: ("slide_all", 4),
+        PlayerState.TURN_AROUND: ("turn_around", 3),
+        PlayerState.WALL_CLIMB: ("wall_climb", 7),
+        PlayerState.WALL_HANG: ("wall_hang", 1),
+        PlayerState.WALL_SLIDE: ("wall_slide", 3),
+    }
+
+    @classmethod
+    def load_animation(cls, state: PlayerState) -> list:
+        """Lade alle Frames für einen bestimmten Animation-State.
+        
+        Args:
+            state: Der PlayerState für die Animation
+            
+        Returns:
+            Liste von arcade.Texture Objekten
+        """
+        if state not in cls.ANIMATION_DATA:
+            return cls.load_animation(PlayerState.IDLE)  # Fallback
+
+        directory, frame_count = cls.ANIMATION_DATA[state]
+        frames = []
+        for i in range(frame_count):
+            path = f"FreeKnight_v1_frames/{directory}/{directory}_{i}.png"
+            try:
+                frames.append(arcade.load_texture(path))
+            except:
+                print(f"Warnung: Konnte Texture nicht laden: {path}")
+        return frames if frames else cls.load_animation(PlayerState.IDLE)
+
+    @classmethod
+    def load_all_animations(cls) -> dict:
+        """Lade alle verfügbaren Animationen.
+        
+        Returns:
+            Dictionary mit State -> Frame-Liste Mappings
+        """
+        animations = {}
+        for state in PlayerState:
+            animations[state] = cls.load_animation(state)
+        return animations
+
+
+# ============================================================================
+# GAME WINDOW
 # ============================================================================
 
 class GameWindow(arcade.Window):
+    """Hauptfenster für das Platformer-Spiel."""
 
     def __init__(self):
-        """Initialisiere das Fenster."""
+        """Initialisiere das Fenster und alle Spielkomponenten."""
         super().__init__(SCREEN_WIDTH, SCREEN_HEIGHT, SCREEN_TITLE)
 
-        self.player_sprite_list = arcade.SpriteList()
-
+        # Grafik-Setup
         self.background_color = arcade.color.LIGHT_BLUE
 
+        # Player Setup
+        self.player_sprite_list = arcade.SpriteList()
+        self.player_sprite = self._create_player_sprite()
+        self.player_sprite_list.append(self.player_sprite)
+
+        # Animation Setup
+        self.animations = AnimationLoader.load_all_animations()
+        self.current_animation_frames = self.animations[PlayerState.IDLE]
+        self.animation_index = 0
+        self.animation_timer = 0.0
+
+        # Player State Setup
+        self.current_state = PlayerState.IDLE
+        self.jump_key_pressed = False
+        self.facing_right = True
+        self.coyote_counter = 0.0
+
+        # Camera & Physics (werden in setup() initialisiert)
+        self.camera = None
+        self.camera_x = 0.0
+        self.camera_y = 0.0
+        self.simple_physics_engine = None
+        self.scene = None
+
+        # Game State
         self.death_time = DEATH_TIME
+        self.fps_counter = 0.0
 
-        self.animations_list = []
+        # Audio
+        self._load_music()
 
-        self.wait = 0
-       
-
-    
-        self.player_sprite = arcade.Sprite(
+    def _create_player_sprite(self) -> arcade.Sprite:
+        """Erstelle und initialisiere den Player Sprite."""
+        sprite = arcade.Sprite(
             hit_box_algorithm=arcade.hitbox.algo_detailed,
             scale=PLAYER_SCALE,
         )
-        self.player_sprite.center_x = PLAYER_START_X
-        self.player_sprite.center_y = PLAYER_START_Y
-        self.player_sprite_list.append(self.player_sprite)
-        #============================
-        # Music
-        #============================
+        sprite.center_x = PLAYER_START_X
+        sprite.center_y = PLAYER_START_Y
+        return sprite
 
-        arcade.load_sound("music.mp3")
-        arcade.play_sound(arcade.load_sound("music.mp3"), volume=0.1, loop=True)
-
-        #============================
-        # Animationen
-        #============================
-
-        self.animation_index = 0
-        self.animation_timer = 0.0
-        self.animation_frame_duration = 0.08
-        self.current_animation_frames = None
-
-        self.animation_frames_attack = [arcade.load_texture(f"FreeKnight_v1_frames/attack/attack_{i}.png") for i in range(0, 4)]
-        self.animations_list.append(self.animation_frames_attack)
-
-        self.animation_frames_attack_combo = [arcade.load_texture(f"FreeKnight_v1_frames/attack_combo/attack_combo_{i}.png") for i in range(0, 10)]
-        self.animations_list.append(self.animation_frames_attack_combo)
-
-        self.animation_frames_attack2 = [arcade.load_texture(f"FreeKnight_v1_frames/attack2/attack2_{i}.png") for i in range(0, 6)]
-        self.animations_list.append(self.animation_frames_attack2)
-
-        self.animation_frames_crouch = [arcade.load_texture(f"FreeKnight_v1_frames/crouch/crouch_{i}.png") for i in range(0, 1)]
-        self.animations_list.append(self.animation_frames_crouch)
-
-        self.animation_frames_crouch_attack = [arcade.load_texture(f"FreeKnight_v1_frames/crouch_attack/crouch_attack_{i}.png") for i in range(0, 4)]
-        self.animations_list.append(self.animation_frames_crouch_attack)
-
-        self.animation_frames_crouch_walk = [arcade.load_texture(f"FreeKnight_v1_frames/crouch_walk/crouch_walk_{i}.png") for i in range(0, 8)]
-        self.animations_list.append(self.animation_frames_crouch_walk)
-
-        self.animation_frames_dash = [arcade.load_texture(f"FreeKnight_v1_frames/dash/dash_{i}.png") for i in range(0, 2)]
-        self.animations_list.append(self.animation_frames_dash)
-
-        self.animation_frames_death = [arcade.load_texture(f"FreeKnight_v1_frames/death/death_{i}.png") for i in range(0, 10)]
-        self.animations_list.append(self.animation_frames_death)
-
-        self.animation_frames_death_no_movement = [arcade.load_texture(f"FreeKnight_v1_frames/death_no_movement/death_no_movement_{i}.png") for i in range(0, 10)]
-        self.animations_list.append(self.animation_frames_death_no_movement)
-
-        self.animation_frames_fall = [arcade.load_texture(f"FreeKnight_v1_frames/fall/fall_{i}.png") for i in range(0, 3)]
-        self.animations_list.append(self.animation_frames_fall)
-
-        self.animation_frames_hit = [arcade.load_texture(f"FreeKnight_v1_frames/hit/hit_{i}.png") for i in range(0, 1)]
-        self.animations_list.append(self.animation_frames_hit)
-
-        self.animation_frames_idle = [arcade.load_texture(f"FreeKnight_v1_frames/idle/idle_{i}.png") for i in range(0, 10)]
-        self.animations_list.append(self.animation_frames_idle)
-
-        self.animation_frames_jump = [arcade.load_texture(f"FreeKnight_v1_frames/jump/jump_{i}.png") for i in range(0, 3)]
-        self.animations_list.append(self.animation_frames_jump)
-
-        self.animation_frames_jump_fall_inbetween = [arcade.load_texture(f"FreeKnight_v1_frames/jump_fall_inbetween/jump_fall_inbetween_{i}.png") for i in range(0, 2)]
-        self.animations_list.append(self.animation_frames_jump_fall_inbetween)
-
-        self.animation_frames_roll = [arcade.load_texture(f"FreeKnight_v1_frames/roll/roll_{i}.png") for i in range(0, 12)]
-        self.animations_list.append(self.animation_frames_roll)
-
-        self.animation_frames_run = [arcade.load_texture(f"FreeKnight_v1_frames/run/run_{i}.png") for i in range(0, 10)]
-        self.animations_list.append(self.animation_frames_run)
-
-        self.animation_frames_slide = [arcade.load_texture(f"FreeKnight_v1_frames/slide/slide_{i}.png") for i in range(0, 2)]
-        self.animations_list.append(self.animation_frames_slide)
-
-        self.animation_frames_slide_all = [arcade.load_texture(f"FreeKnight_v1_frames/slide_all/slide_all_{i}.png") for i in range(0, 4)]
-        self.animations_list.append(self.animation_frames_slide_all)
-
-        self.animation_frames_turn_around = [arcade.load_texture(f"FreeKnight_v1_frames/turn_around/turn_around_{i}.png") for i in range(0, 3)]
-        self.animations_list.append(self.animation_frames_turn_around)
-
-        self.animation_frames_wall_climb = [arcade.load_texture(f"FreeKnight_v1_frames/wall_climb/wall_climb_{i}.png") for i in range(0, 7)]
-        self.animations_list.append(self.animation_frames_wall_climb)
-
-        self.animation_frames_wall_hang = [arcade.load_texture(f"FreeKnight_v1_frames/wall_hang/wall_hang_{i}.png") for i in range(0, 1)]
-        self.animations_list.append(self.animation_frames_wall_hang)
-
-        self.animation_frames_wall_slide = [arcade.load_texture(f"FreeKnight_v1_frames/wall_slide/wall_slide_{i}.png") for i in range(0, 3)]
-        self.animations_list.append(self.animation_frames_wall_slide)
-        self.current_animation_frames = self.animation_frames_idle
-
+    def _load_music(self):
+        """Lade und spiele die Hintergrundmusik."""
+        try:
+            arcade.load_sound(MUSIC_FILE)
+            arcade.play_sound(arcade.load_sound(MUSIC_FILE), volume=MUSIC_VOLUME, loop=True)
+        except:
+            print(f"Warnung: Konnte Musik nicht laden: {MUSIC_FILE}")
 
     def setup(self):
-        """Setze das Spiel auf."""
+        """Initialisiere das Spiel (wird am Anfang und nach Tod aufgerufen)."""
+        # Tilemap laden
         self.tile_map = arcade.load_tilemap(MAP_FILE_PATH, TILE_SCALING)
         self.scene = arcade.Scene.from_tilemap(self.tile_map)
 
-        self.simple_physics_engine = arcade.PhysicsEnginePlatformer(self.player_sprite, self.scene["Wall"], gravity_constant=0.5)
-
-    
-        # Setze die Kamera
-        self.camera = arcade.camera.Camera2D()
-        # Initialisiere die geglättete Kameraposition zentriert auf den Spieler
-        self.camera_x = self.player_sprite.center_x
-        self.camera_y = self.player_sprite.center_y 
-        self.camera.position = (self.camera_x, self.camera_y)
+        # Player zurücksetzen
         self.player_sprite.center_x = PLAYER_START_X
         self.player_sprite.center_y = PLAYER_START_Y
+        self.player_sprite.change_x = 0
+        self.player_sprite.change_y = 0
+
+        # Physics Engine
+        self.simple_physics_engine = arcade.PhysicsEnginePlatformer(
+            self.player_sprite,
+            self.scene["Wall"],
+            gravity_constant=GRAVITY_CONSTANT
+        )
+
+        # Kamera initialisieren
+        self.camera = arcade.camera.Camera2D()
+        self.camera_x = self.player_sprite.center_x
+        self.camera_y = self.player_sprite.center_y
+        self.camera.position = (self.camera_x, self.camera_y)
+
+        # Game State zurücksetzen
         self.death_time = DEATH_TIME
+        self.current_state = PlayerState.IDLE
+        self.jump_key_pressed = False
+        self.coyote_counter = 0.0
 
+    # ========================================================================
+    # INPUT HANDLING
+    # ========================================================================
 
-    def start_random_animation(self):
-        if not self.animations_list:
-            return
+    def on_key_press(self, key: int, modifiers: int):
+        """Reagiere auf Tastendruck."""
+        # Spiel beenden
+        if key == arcade.key.ESCAPE:
+            self.close()
 
-        self.current_animation_frames = random.choice(self.animations_list)
+        # Bewegung nach rechts
+        elif key == arcade.key.RIGHT or key == arcade.key.D:
+            self.player_sprite.change_x = WALK_SPEED
+            self.facing_right = True
+
+        # Bewegung nach links
+        elif key == arcade.key.LEFT or key == arcade.key.A:
+            self.player_sprite.change_x = -WALK_SPEED
+            self.facing_right = False
+
+        # Springen
+        elif key == arcade.key.UP or key == arcade.key.W or key == arcade.key.SPACE:
+            if not self.jump_key_pressed and (self.simple_physics_engine.can_jump() or self.coyote_counter > 0):
+                self.player_sprite.change_y = JUMP_SPEED
+                self.jump_key_pressed = True
+                self.coyote_counter = 0.0
+
+        # Zufällige Animation (Debug)
+        elif key == arcade.key.G:
+            self._start_random_animation()
+
+        # FPS Anzeige (Debug)
+        elif key == ord('1'):
+            print(f"FPS: {self.fps_counter:.1f}")
+
+        # Neustart (Debug)
+        elif key == arcade.key.R:
+            self.setup()
+
+    def on_key_release(self, key: int, modifiers: int):
+        """Reagiere auf Loslassen einer Taste."""
+        # Stoppe Bewegung nach rechts
+        if key == arcade.key.RIGHT or key == arcade.key.D:
+            self.player_sprite.change_x = 0
+
+        # Stoppe Bewegung nach links
+        elif key == arcade.key.LEFT or key == arcade.key.A:
+            self.player_sprite.change_x = 0
+
+        # Stoppe Sprung
+        elif key == arcade.key.UP or key == arcade.key.W or key == arcade.key.SPACE:
+            self.jump_key_pressed = False
+
+    # ========================================================================
+    # ANIMATION MANAGEMENT
+    # ========================================================================
+
+    def _start_random_animation(self):
+        """Starte eine zufällige Animation (für Debug)."""
+        random_state = random.choice(list(PlayerState))
+        self.current_animation_frames = self.animations[random_state]
         self.animation_index = 0
         self.animation_timer = 0.0
 
-    def on_key_press(self, key, modifiers):
-        """Reagiere auf Tastendruck."""
-        if key == arcade.key.ESCAPE:
-            self.close()
-        if key == arcade.key.RIGHT or key == arcade.key.D:
-            self.player_sprite.change_x = 3
-        if key == arcade.key.LEFT or key == arcade.key.A:
-            self.player_sprite.change_x = -3
-        if key == arcade.key.UP or key == arcade.key.W or key == arcade.key.SPACE:
-            if self.simple_physics_engine.can_jump():
-                self.player_sprite.change_y = 12
-        if key == arcade.key.DOWN or key == arcade.key.S or key == arcade.key.MOD_SHIFT:
-            self.animation_frames_crouch
-        if key == arcade.key.G:
-            self.start_random_animation()
+    def _set_animation_for_state(self, state: PlayerState):
+        """Setze die Animation für einen bestimmten State.
+        
+        Args:
+            state: Der neue PlayerState
+        """
+        self.current_animation_frames = self.animations.get(state, self.animations[PlayerState.IDLE])
+        self.animation_index = 0
+        self.animation_timer = 0.0
 
-    def on_key_release(self, key, modifiers):
-        """Reagiere auf Loslassen einer Taste."""
-        if key == arcade.key.RIGHT or key == arcade.key.D:
-            self.player_sprite.change_x = 0
-        if key == arcade.key.LEFT or key == arcade.key.A:
-            self.player_sprite.change_x = 0
-        if key == arcade.key.UP or key == arcade.key.W:
-            pass
-        if key == arcade.key.DOWN or key == arcade.key.S:
-            self.player_sprite.change_y = 0
-        if key == arcade.key.R:
-            self.setup()
-
-
-    def _update_player_animation(self, delta_time):
-        frames = self.current_animation_frames or self.animation_frames_attack
+    def _update_player_animation(self, delta_time: float):
+        """Update die aktuelle Animation.
+        
+        Args:
+            delta_time: Zeit seit letztem Frame in Sekunden
+        """
+        frames = self.current_animation_frames or self.animations[PlayerState.IDLE]
         if not frames:
             return
 
+        # Erhöhe Timer
         self.animation_timer += delta_time
-        if self.animation_timer >= self.animation_frame_duration:
+
+        # Wechsle zum nächsten Frame wenn Zeit abgelaufen
+        if self.animation_timer >= ANIMATION_FRAME_DURATION:
             self.animation_timer = 0.0
             self.animation_index = (self.animation_index + 1) % len(frames)
 
+        # Setze neue Texture
         self.player_sprite.texture = frames[self.animation_index]
         self.player_sprite.scale = PLAYER_SCALE
 
-    def on_update(self, delta_time):
-        # Aktualisiere den Spielzustand.
-        self._update_player_animation(delta_time)
+        # Spiegle basierend auf Blickrichtung
+        if self.facing_right:
+            self.player_sprite.scale_x = abs(self.player_sprite.scale_x)
+        else:
+            self.player_sprite.scale_x = -abs(self.player_sprite.scale_x)
 
+    # ========================================================================
+    # GAME LOGIC
+    # ========================================================================
 
+    def _update_player_state(self):
+        """Update den Player State basierend auf Physik und Eingabe."""
+        is_on_ground = self.simple_physics_engine.can_jump()
+        is_moving = abs(self.player_sprite.change_x) > 0
 
-        # Update physics and player position
-        self.simple_physics_engine.update()
-        #print(delta_time)
+        # Bestimme neuen State
+        if not is_on_ground:
+            new_state = PlayerState.JUMP if self.player_sprite.change_y > 0 else PlayerState.FALL
+        elif is_moving:
+            new_state = PlayerState.RUN
+        else:
+            new_state = PlayerState.IDLE
 
-        # Smooth camera follow (linear interpolation)
+        # Wechsle Animation wenn State sich geändert hat
+        if new_state != self.current_state:
+            self.current_state = new_state
+            self._set_animation_for_state(new_state)
+
+    def _update_coyote_time(self, delta_time: float):
+        """Update die Coyote Time (Sprung-Verzögerung nach Plattform).
+        
+        Args:
+            delta_time: Zeit seit letztem Frame in Sekunden
+        """
+        if self.simple_physics_engine.can_jump():
+            self.coyote_counter = COYOTE_TIME
+        else:
+            self.coyote_counter -= delta_time
+
+    def _update_camera(self):
+        """Update die Kamera Position (smooth follow)."""
         target_x = self.player_sprite.center_x
-        target_y = self.player_sprite.center_y 
+        target_y = self.player_sprite.center_y
+
+        # Linear interpolation
         self.camera_x += (target_x - self.camera_x) * CAMERA_LERP
         self.camera_y += (target_y - self.camera_y) * CAMERA_LERP
         self.camera.position = (self.camera_x, self.camera_y)
-        #death check
-        self.death = arcade.check_for_collision_with_list(self.player_sprite, self.scene["Death"])
-        if self.death:
+
+    def _check_death(self, delta_time: float):
+        """Überprüfe ob der Player in der Tod-Zone ist.
+        
+        Args:
+            delta_time: Zeit seit letztem Frame in Sekunden
+        """
+        death_collisions = arcade.check_for_collision_with_list(
+            self.player_sprite,
+            self.scene["Death"]
+        )
+
+        if death_collisions:
             self.death_time -= delta_time
-        if self.death and self.death_time <= 0:
-            self.setup()
+            if self.death_time <= 0:
+                self.setup()
 
+    def on_update(self, delta_time: float):
+        """Update die Game Logic.
+        
+        Args:
+            delta_time: Zeit seit letztem Frame in Sekunden
+        """
+        # Berechne FPS
+        if delta_time > 0:
+            self.fps_counter = 1.0 / delta_time
 
+        # Update Gameplay
+        self._update_player_state()
+        self._update_player_animation(delta_time)
+        self._update_coyote_time(delta_time)
 
+        # Reset Jump Flag wenn am Boden
+        if self.simple_physics_engine.can_jump():
+            self.jump_key_pressed = False
+
+        # Physics
+        self.simple_physics_engine.update()
+
+        # Camera und World
+        self._update_camera()
+        self._check_death(delta_time)
+
+    # ========================================================================
+    # RENDERING
+    # ========================================================================
 
     def on_draw(self):
-        """Zeichne das Spiel."""
+        """Zeichne den Frame."""
         self.clear()
-        self.camera.use()
-        self.scene.draw(pixelated=True)
-        self.player_sprite_list.draw(pixelated=True)
+
+        with self.camera.activate():
+            self.scene.draw(pixelated=True)
+            self.player_sprite_list.draw(pixelated=True)
+
 
 # ============================================================================
 # MAIN
