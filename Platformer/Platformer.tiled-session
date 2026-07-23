@@ -1,5 +1,5 @@
 {
-    "activeFile": "Platfomer.tmx",
+    "activeFile": "Platformer_bilder_objekts.tsx",
     "expandedProjectPaths": [
         "."
     ],
@@ -8,8 +8,8 @@
             "scale": 0.7613,
             "selectedLayer": 0,
             "viewCenter": {
-                "x": 2717.0629186917113,
-                "y": 613.4244056219625
+                "x": 1643.2418231971626,
+                "y": 600.2889793773807
             }
         },
         "Platformer_bilder_boden.tsx": {
@@ -36,8 +36,8 @@
     "project": "",
     "recentFiles": [
         "Platformer_bilder_boden.tsx",
-        "Platformer_bilder_objekts.tsx",
         "Platformer_bilder_monster.tsx",
-        "Platfomer.tmx"
+        "Platfomer.tmx",
+        "Platformer_bilder_objekts.tsx"
     ]
 }
