@@ -1,6 +1,7 @@
 import arcade
 import random
 from enum import Enum
+from pathlib import Path
 
 # ============================================================================
 # KONSTANTEN - Screen
@@ -48,7 +49,6 @@ DEATH_TIME = 0.1
 
 MUSIC_FILE = "music.mp3"
 MUSIC_VOLUME = 0.1
-
 
 # ============================================================================
 # ENUMS
@@ -149,55 +149,10 @@ class AnimationLoader:
 
 
 # ============================================================================
-# ENEMIES
-# ============================================================================
-
-ENEMY_SCALE = 1
-ENEMY_SPEED = 2
-ENEMY_ATTACK_DISTANCE = 50
-ENEMY_COLOR = arcade.color.DARK_BROWN
-
-class Enemy(arcade.SpriteSolidColor):
-    """Ein einfacher Gegner, der den Spieler jagt."""
-
-    def __init__(self, center_x: float, center_y: float):
-        super().__init__(32, 32, ENEMY_COLOR)
-        self.center_x = center_x
-        self.center_y = center_y
-        self.scale = ENEMY_SCALE
-        self.attack_distance = ENEMY_ATTACK_DISTANCE
-        self.speed = ENEMY_SPEED
-
-    def update_logic(self, player_sprite: arcade.Sprite, delta_time: float):
-        """Bewege den Gegner auf den Spieler zu und greife bei Reichweite an."""
-        distance = arcade.get_distance_between_sprites(self, player_sprite)
-
-        if distance <= self.attack_distance:
-            self.change_x = 0
-            if self.collides_with_sprite(player_sprite):
-                print("Werwolf greift dich an!")
-                # Optional: Stoß den Spieler zurück
-                if player_sprite.center_x < self.center_x:
-                    player_sprite.center_x -= 10
-                else:
-                    player_sprite.center_x += 10
-            return
-
-        if player_sprite.center_x > self.center_x:
-            self.change_x = self.speed
-        else:
-            self.change_x = -self.speed
-
-    def update(self):
-        super().update()
-
-
-# ============================================================================
 # GAME WINDOW
 # ============================================================================
 
 class GameWindow(arcade.Window):
-
     def __init__(self):
         """Initialisiere das Fenster und alle Spielkomponenten."""
         super().__init__(SCREEN_WIDTH, SCREEN_HEIGHT, SCREEN_TITLE, resizable=True, fullscreen=True)
@@ -228,9 +183,6 @@ class GameWindow(arcade.Window):
         self.camera_y = 0.0
         self.simple_physics_engine = None
         self.scene = None
-
-        # Enemies
-        self.enemies = arcade.SpriteList()
 
         # Game State
         self.death_time = DEATH_TIME
@@ -275,9 +227,6 @@ class GameWindow(arcade.Window):
             [self.scene["Wall"], self.scene["Barrier"]],
             gravity_constant=GRAVITY_CONSTANT
         )
-
-        # Spawn enemies from werwolf layer
-        self._spawn_werwolf_enemies()
 
         # Kamera initialisieren
         self.camera = arcade.camera.Camera2D()
@@ -452,25 +401,6 @@ class GameWindow(arcade.Window):
             if self.death_time <= 0:
                 self.setup()
 
-    def _spawn_werwolf_enemies(self):
-        """Erzeuge Gegner auf allen Positionen der werwolf-Layer."""
-        for layer_name in ("werwolf", "Werwolf", "WERWOLF"):
-            try:
-                werwolf_layer = self.scene[layer_name]
-                for marker in list(werwolf_layer):
-                    enemy = Enemy(marker.center_x, marker.center_y)
-                    self.enemies.append(enemy)
-                werwolf_layer.clear()
-                return
-            except KeyError:
-                continue
-
-    def _update_enemies(self, delta_time: float):
-        """Aktualisiere alle Gegner und lasse sie den Spieler verfolgen."""
-        for enemy in self.enemies:
-            enemy.update_logic(self.player_sprite, delta_time)
-            enemy.update()
-
     def on_update(self, delta_time: float):
         """Update die Game Logic.
         
@@ -492,7 +422,6 @@ class GameWindow(arcade.Window):
 
         # Physics
         self.simple_physics_engine.update()
-        self._update_enemies(delta_time)
 
         # Camera und World
         self._update_camera()
@@ -509,7 +438,6 @@ class GameWindow(arcade.Window):
         with self.camera.activate():
             self.scene.draw(pixelated=True)
             self.player_sprite_list.draw(pixelated=True)
-            self.enemies.draw(pixelated=True)
 
 
 # ============================================================================

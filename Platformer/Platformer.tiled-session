@@ -1,16 +1,22 @@
 {
-    "activeFile": "Platformer_bilder_objekts.tsx",
+    "activeFile": "Platfomer.tmx",
     "expandedProjectPaths": [
         "."
     ],
     "fileStates": {
+        "": {
+            "scaleInDock": 1
+        },
         "Platfomer.tmx": {
-            "scale": 0.7613,
+            "scale": 0.76,
             "selectedLayer": 0,
             "viewCenter": {
-                "x": 1643.2418231971626,
-                "y": 600.2889793773807
+                "x": 494.7368421052631,
+                "y": 2002.6315789473686
             }
+        },
+        "Platfomer.tmx#Slime_Attack_Shadow": {
+            "dynamicWrapping": false
         },
         "Platformer_bilder_boden.tsx": {
             "dynamicWrapping": true,
@@ -22,8 +28,73 @@
             "scaleInEditor": 1
         },
         "Platformer_bilder_objekts.tsx": {
+            "dynamicWrapping": true,
             "scaleInDock": 1,
             "scaleInEditor": 1
+        },
+        "Platformer_sprit/free-slime-mobs-pixel-art-top-down-sprite-pack/Tiled_files/Slime1.tmx": {
+            "scale": 1.9,
+            "selectedLayer": 1,
+            "viewCenter": {
+                "x": 127.89473684210526,
+                "y": 192.10526315789474
+            }
+        },
+        "Platformer_sprit/free-slime-mobs-pixel-art-top-down-sprite-pack/Tiled_files/Slime1.tmx#Slime1_Attack_body": {
+            "scaleInDock": 1
+        },
+        "Platformer_sprit/free-slime-mobs-pixel-art-top-down-sprite-pack/Tiled_files/Slime1.tmx#Slime1_Attack_full": {
+            "dynamicWrapping": false,
+            "scaleInDock": 1
+        },
+        "Platformer_sprit/free-slime-mobs-pixel-art-top-down-sprite-pack/Tiled_files/Slime1.tmx#Slime1_Death_body": {
+            "scaleInDock": 1
+        },
+        "Platformer_sprit/free-slime-mobs-pixel-art-top-down-sprite-pack/Tiled_files/Slime1.tmx#Slime1_Death_full": {
+            "scaleInDock": 1
+        },
+        "Platformer_sprit/free-slime-mobs-pixel-art-top-down-sprite-pack/Tiled_files/Slime1.tmx#Slime1_Hurt_body": {
+            "scaleInDock": 1
+        },
+        "Platformer_sprit/free-slime-mobs-pixel-art-top-down-sprite-pack/Tiled_files/Slime1.tmx#Slime1_Hurt_full": {
+            "scaleInDock": 1
+        },
+        "Platformer_sprit/free-slime-mobs-pixel-art-top-down-sprite-pack/Tiled_files/Slime1.tmx#Slime1_Idle_body": {
+            "scaleInDock": 1
+        },
+        "Platformer_sprit/free-slime-mobs-pixel-art-top-down-sprite-pack/Tiled_files/Slime1.tmx#Slime1_Idle_full": {
+            "scaleInDock": 1
+        },
+        "Platformer_sprit/free-slime-mobs-pixel-art-top-down-sprite-pack/Tiled_files/Slime1.tmx#Slime1_Run_body": {
+            "scaleInDock": 1
+        },
+        "Platformer_sprit/free-slime-mobs-pixel-art-top-down-sprite-pack/Tiled_files/Slime1.tmx#Slime1_Run_full": {
+            "scaleInDock": 1
+        },
+        "Platformer_sprit/free-slime-mobs-pixel-art-top-down-sprite-pack/Tiled_files/Slime1.tmx#Slime1_Run_shadow": {
+            "scaleInDock": 1
+        },
+        "Platformer_sprit/free-slime-mobs-pixel-art-top-down-sprite-pack/Tiled_files/Slime1.tmx#Slime1_Walk_body": {
+            "scaleInDock": 1
+        },
+        "Platformer_sprit/free-slime-mobs-pixel-art-top-down-sprite-pack/Tiled_files/Slime1.tmx#Slime1_Walk_full": {
+            "scaleInDock": 1
+        },
+        "Platformer_sprit/free-slime-mobs-pixel-art-top-down-sprite-pack/Tiled_files/Slime1.tmx#Slime1_Walk_shadow": {
+            "scaleInDock": 1
+        },
+        "Platformer_sprit/free-slime-mobs-pixel-art-top-down-sprite-pack/Tiled_files/Slime1.tmx#Slime_Attack_Shadow": {
+            "scaleInDock": 1
+        },
+        "Platformer_sprit/free-slime-mobs-pixel-art-top-down-sprite-pack/Tiled_files/Slime1.tmx#Slime_Death_hadow": {
+            "dynamicWrapping": false,
+            "scaleInDock": 1
+        },
+        "Platformer_sprit/free-slime-mobs-pixel-art-top-down-sprite-pack/Tiled_files/Slime1.tmx#Slime_Hurt_shadow": {
+            "scaleInDock": 1
+        },
+        "Platformer_sprit/free-slime-mobs-pixel-art-top-down-sprite-pack/Tiled_files/Slime1.tmx#Slime_Idle_shadow": {
+            "scaleInDock": 1
         }
     },
     "last.imagePath": "/Users/vitusalber/Downloads",
@@ -35,9 +106,10 @@
     ],
     "project": "",
     "recentFiles": [
+        "Platformer_sprit/free-slime-mobs-pixel-art-top-down-sprite-pack/Tiled_files/Slime1.tmx",
         "Platformer_bilder_boden.tsx",
+        "Platformer_bilder_objekts.tsx",
         "Platformer_bilder_monster.tsx",
-        "Platfomer.tmx",
-        "Platformer_bilder_objekts.tsx"
+        "Platfomer.tmx"
     ]
 }
