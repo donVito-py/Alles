@@ -427,6 +427,12 @@ class GameWindow(arcade.Window):
         self._update_camera()
         self._check_death(delta_time)
 
+        #Protal teleportiert
+        portal_collisions = arcade.check_for_collision_with_list(self.player_sprite, self.scene["Tp"])
+        if portal_collisions:
+            self.player_sprite.center_x = 160
+            self.player_sprite.center_y = 1650
+
     # ========================================================================
     # RENDERING
     # ========================================================================

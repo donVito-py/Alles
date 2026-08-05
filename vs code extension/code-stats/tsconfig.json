@@ -1,0 +1,11 @@
+{
+    "compielerOptions": {
+        "module": "commonjs",
+        "target": "es2025",
+        "outDir": "out",
+        "rootDir": "src",
+        "strict": true,
+    },
+    "include": ["src", "out/extension.js"]
+    
+}

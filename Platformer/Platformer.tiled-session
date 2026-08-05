@@ -9,10 +9,10 @@
         },
         "Platfomer.tmx": {
             "scale": 0.76,
-            "selectedLayer": 0,
+            "selectedLayer": 2,
             "viewCenter": {
-                "x": 494.7368421052631,
-                "y": 2002.6315789473686
+                "x": 461.84210526315786,
+                "y": 1646.0526315789475
             }
         },
         "Platfomer.tmx#Slime_Attack_Shadow": {
@@ -106,10 +106,10 @@
     ],
     "project": "",
     "recentFiles": [
-        "Platformer_sprit/free-slime-mobs-pixel-art-top-down-sprite-pack/Tiled_files/Slime1.tmx",
         "Platformer_bilder_boden.tsx",
         "Platformer_bilder_objekts.tsx",
         "Platformer_bilder_monster.tsx",
-        "Platfomer.tmx"
+        "Platfomer.tmx",
+        "Platformer_sprit/free-slime-mobs-pixel-art-top-down-sprite-pack/Tiled_files/Slime1.tmx"
     ]
 }

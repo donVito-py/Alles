@@ -1,0 +1,19 @@
+{
+  "name": "code-stats",
+  "version": "0.0.1",
+  "engines": {
+    "vscode": "^1.126.0 "
+  },
+  "main":"./out/extension.js",
+  "scripts": {
+      "compile": "tsc -p ./"
+  },
+  "activationEvents": [
+    "onStartupFinished"
+  ],
+  "devDependencies": {
+      "@types/vscode": "^1.100.0",
+      "@types/node": "^26.1.2",
+      "typescript": "^5.6.0"
+  }   
+}
