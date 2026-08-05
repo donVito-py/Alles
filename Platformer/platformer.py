@@ -41,7 +41,7 @@ CAMERA_LERP = 0.25  # Kamera-Glättung (0-1)
 # ============================================================================
 
 ANIMATION_FRAME_DURATION = 0.08  # Sekunden pro Frame
-DEATH_TIME = 0.1
+DEATH_TIME = 0.2
 
 # ============================================================================
 # KONSTANTEN - Audio
@@ -267,9 +267,10 @@ class GameWindow(arcade.Window):
                 self.jump_key_pressed = True
                 self.coyote_counter = 0.0
 
-        # Zufällige Animation (Debug)
+        # Debug
         elif key == arcade.key.G:
-            self._start_random_animation()
+            pass
+            
 
         # FPS Anzeige (Debug)
         elif key == ord('1'):
@@ -430,8 +431,8 @@ class GameWindow(arcade.Window):
         #Protal teleportiert
         portal_collisions = arcade.check_for_collision_with_list(self.player_sprite, self.scene["Tp"])
         if portal_collisions:
-            self.player_sprite.center_x = 160
-            self.player_sprite.center_y = 1650
+            self.player_sprite.center_x = 131
+            self.player_sprite.center_y = 1250
 
     # ========================================================================
     # RENDERING
