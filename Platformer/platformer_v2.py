@@ -17,29 +17,52 @@ class Spiel(arcade.Window):
         
         self.player_sprite = arcade.Sprite(Textur, scale=PLAYER_SCALE, )
         self.player_list.append(self.player_sprite)
+        
+        self.up = arcade.key.W
+        self.down = arcade.key.S
+        self.left = arcade.key.A
+        self.right = arcade.key.D
+        
+        
+        
                 
 
     def setup(self):
         self.tile_map = arcade.load_tilemap("Platfomer.tmx")
         self.scene = arcade.Scene.from_tilemap(self.tile_map)
 
-        self.physics_engine = arcade.PhysicsEnginePlatformer(self.player_sprite, walls=[self.scene["Wall"], self.scene["Barrier"]])
+        self.physics_engine = arcade.PhysicsEnginePlatformer(self.player_sprite, walls=[self.scene["Wall"], self.scene["Barrier"]], gravity_constant=0.25)
 
         self.camera = arcade.camera.Camera2D()
         self.camera_x = self.player_sprite.center_x
         self.camera_y = self.player_sprite.center_y
         self.camera.position = (self.camera_x, self.camera_y)
+        
+    
 
 
         
         self.player_sprite.center_x = 180
         self.player_sprite.center_y = 2650
         
+    # def change_keybines(self, key, modifiers):
+    #     self.up = input("Enter key for up: ")
+    #     self.down = input("Enter key for down: ")
+    #     self.left = input("Enter key for left: ")
+    #     self.right = input("Enter key for right: ")
+    #     if hasattr(arcade, self.up):
+    #         self.up = getattr(arcade.key, self.up)
+    #     if hasattr(arcade, self.down):
+    #         self.down = getattr(arcade.key, self.down)
+    #     if hasattr(arcade, self.left):
+    #         self.left = getattr(arcade.key, self.left)
+    #     if hasattr(arcade, self.right):
+    #         self.right = getattr(arcade.key, self.right)
+            
+    #     return self.up, self.down, self.left, self.right
 
-
-
-
-
+        
+        
 
 
     def on_draw(self):
@@ -53,27 +76,35 @@ class Spiel(arcade.Window):
         #self.player_list.draw_hit_boxes()
 
     def on_key_press(self, key, modifiers):
-        if key == arcade.key.W or key == arcade.key.UP:
-            self.player_sprite.change_y = 5
-        elif key == arcade.key.S or key == arcade.key.DOWN:
-            self.player_sprite.change_y = -5
-        elif key == arcade.key.A or key == arcade.key.LEFT:
-            self.player_sprite.change_x = -5
-        elif key == arcade.key.D or key == arcade.key.RIGHT:
-            self.player_sprite.change_x = 5
+        if key == self.up or key == arcade.key.UP or key == arcade.key.SPACE or self.physics_engine.can_jump():
+            self.player_sprite.change_y = 12
+        elif key == self.down or key == arcade.key.DOWN:
+            self.player_sprite.change_y = -4
+        elif key == self.left or key == arcade.key.LEFT:
+            self.player_sprite.change_x = -4
+        elif key == self.right or key == arcade.key.RIGHT:
+            self.player_sprite.change_x = 4
 
         elif key == arcade.key.R:
             self.setup()
+            
+        elif key == arcade.key.ESCAPE:
+            arcade.close_window()
+            
+        # elif key == arcade.key.K:
+        #     self.change_keybines(key, modifiers)
 
     def on_key_release(self, key, modifiers):
-        if key == arcade.key.W or key == arcade.key.UP:
+        if key == self.up or key == arcade.key.UP :
             self.player_sprite.change_y = 0
-        elif key == arcade.key.S or key == arcade.key.DOWN:
+        elif key == self.down or key == arcade.key.DOWN:
             self.player_sprite.change_y = 0
-        elif key == arcade.key.A or key == arcade.key.LEFT:
+        elif key == self.left or key == arcade.key.LEFT:
             self.player_sprite.change_x = 0
-        elif key == arcade.key.D or key == arcade.key.RIGHT:
+        elif key == self.right or key == arcade.key.RIGHT:
             self.player_sprite.change_x = 0
+            
+            
 
 
     def on_update(self, delta_time):
@@ -82,6 +113,9 @@ class Spiel(arcade.Window):
         self.camera_y = self.player_sprite.center_y
         self.camera.position = (self.camera_x, self.camera_y)
         self.physics_engine.update()
+        
+        if arcade.check_for_collision_with_list(self.player_sprite, self.scene["Death"]):
+            self.setup()
 
 
 
