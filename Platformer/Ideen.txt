@@ -1,2 +1,4 @@
 1.Speicher knopf mit json (man respawend an bäumen)
 2. Änderbake keybines
+3. Wenn man die sprung tasten gedrück hält springt man biss. man sie los lässt
+4. Alle tasten zu True und false abfragen machen

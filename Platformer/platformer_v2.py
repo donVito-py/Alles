@@ -1,4 +1,14 @@
 import arcade
+from arcade.gui import (
+    UIAnchorLayout,
+    UIFlatButton,
+    UIGridLayout,
+    UIImage,
+    UIOnChangeEvent,
+    UITextureButton,
+    UITextureToggle,
+    UIView,
+)
 
 BREITE = 800
 HOEHE = 600
@@ -18,14 +28,11 @@ class Spiel(arcade.Window):
         self.player_sprite = arcade.Sprite(Textur, scale=PLAYER_SCALE, )
         self.player_list.append(self.player_sprite)
         
-        self.up = arcade.key.W
-        self.down = arcade.key.S
-        self.left = arcade.key.A
-        self.right = arcade.key.D
+        UIFlatButton(text="UIFlatButton", width=200, height=50, center_x=self.player_sprite.center_x, center_y=self.player_sprite.center_y)
         
-        
-        
-                
+    
+            
+            
 
     def setup(self):
         self.tile_map = arcade.load_tilemap("Platfomer.tmx")
@@ -37,30 +44,26 @@ class Spiel(arcade.Window):
         self.camera_x = self.player_sprite.center_x
         self.camera_y = self.player_sprite.center_y
         self.camera.position = (self.camera_x, self.camera_y)
+        self.escape_menu = False
         
     
-
+        arcade.load_sound("music.mp3")
+        arcade.play_sound(arcade.load_sound("music.mp3"), volume=1, loop=True)
 
         
         self.player_sprite.center_x = 180
         self.player_sprite.center_y = 2650
         
-    # def change_keybines(self, key, modifiers):
-    #     self.up = input("Enter key for up: ")
-    #     self.down = input("Enter key for down: ")
-    #     self.left = input("Enter key for left: ")
-    #     self.right = input("Enter key for right: ")
-    #     if hasattr(arcade, self.up):
-    #         self.up = getattr(arcade.key, self.up)
-    #     if hasattr(arcade, self.down):
-    #         self.down = getattr(arcade.key, self.down)
-    #     if hasattr(arcade, self.left):
-    #         self.left = getattr(arcade.key, self.left)
-    #     if hasattr(arcade, self.right):
-    #         self.right = getattr(arcade.key, self.right)
-            
-    #     return self.up, self.down, self.left, self.right
+        
+        
 
+    def _on_floor(self, sprite):
+        if sprite.change_y < 0:
+            sprite.change_y = 0
+            return False
+        return True
+        
+    
         
         
 
@@ -70,49 +73,52 @@ class Spiel(arcade.Window):
         self.camera.use()
         self.scene.draw(pixelated=True)
         self.player_list.draw(pixelated=True)
-
+        if self.escape_menu == True:
+            arcade.draw_lbwh_rectangle_filled(self.player_sprite.center_x - BREITE / 2, self.player_sprite.center_y - HOEHE / 2, BREITE, HOEHE, (0,0,0,90))
+            
         #self.scene["Wall"].draw_hit_boxes()
         #self.scene["Barrier"].draw_hit_boxes()
         #self.player_list.draw_hit_boxes()
 
     def on_key_press(self, key, modifiers):
-        if key == self.up or key == arcade.key.UP or key == arcade.key.SPACE or self.physics_engine.can_jump():
-            self.player_sprite.change_y = 12
-        elif key == self.down or key == arcade.key.DOWN:
+        if key == arcade.key.W or key == arcade.key.UP and self._on_floor(self.player_sprite) or key == arcade.key.SPACE and self._on_floor(self.player_sprite):
+            self.player_sprite.change_y = 6
+        elif key == arcade.key.S or key == arcade.key.DOWN:
             self.player_sprite.change_y = -4
-        elif key == self.left or key == arcade.key.LEFT:
+        elif key == arcade.key.A or key == arcade.key.LEFT:
             self.player_sprite.change_x = -4
-        elif key == self.right or key == arcade.key.RIGHT:
+        elif key == arcade.key.D or key == arcade.key.RIGHT:
             self.player_sprite.change_x = 4
 
         elif key == arcade.key.R:
             self.setup()
             
-        elif key == arcade.key.ESCAPE:
-            arcade.close_window()
+        if key == arcade.key.ESCAPE:
+                
+                self.escape_menu = True
             
-        # elif key == arcade.key.K:
-        #     self.change_keybines(key, modifiers)
 
     def on_key_release(self, key, modifiers):
-        if key == self.up or key == arcade.key.UP :
+        if key == arcade.key.W or key == arcade.key.UP :
             self.player_sprite.change_y = 0
-        elif key == self.down or key == arcade.key.DOWN:
+        elif key == arcade.key.S or key == arcade.key.DOWN:
             self.player_sprite.change_y = 0
-        elif key == self.left or key == arcade.key.LEFT:
+        elif key == arcade.key.A or key == arcade.key.LEFT:
             self.player_sprite.change_x = 0
-        elif key == self.right or key == arcade.key.RIGHT:
+        elif key == arcade.key.D or key == arcade.key.RIGHT:
             self.player_sprite.change_x = 0
             
             
 
 
     def on_update(self, delta_time):
-        self.player_list.update()
-        self.camera_x = self.player_sprite.center_x
-        self.camera_y = self.player_sprite.center_y
-        self.camera.position = (self.camera_x, self.camera_y)
-        self.physics_engine.update()
+        if self.escape_menu == False:
+            
+            self.player_list.update()
+            self.camera_x = self.player_sprite.center_x
+            self.camera_y = self.player_sprite.center_y
+            self.camera.position = (self.camera_x, self.camera_y)
+            self.physics_engine.update()
         
         if arcade.check_for_collision_with_list(self.player_sprite, self.scene["Death"]):
             self.setup()
